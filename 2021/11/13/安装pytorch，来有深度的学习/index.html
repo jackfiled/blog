@@ -1,0 +1,665 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/favicon.ico">
+  <link rel="icon" href="/blog/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ricardo Ren">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="深度学习预备篇——安装深度学习框架——pytorch">
+  
+  
+  
+  <title>安装pytorch，来有深度的学习 - Ricardo的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jackfiled.github.io","root":"/blog/","version":"1.9.4","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/blog/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/blog/js/utils.js" ></script>
+  <script  src="/blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/blog/">
+      <strong>Ricardo Ren</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/blog/img/banner.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">安装pytorch，来有深度的学习</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-11-13 13:21" pubdate>
+          2021年11月13日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          52 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">安装pytorch，来有深度的学习</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="深度学习预备篇——安装深度学习框架——pytorch"><a href="#深度学习预备篇——安装深度学习框架——pytorch" class="headerlink" title="深度学习预备篇——安装深度学习框架——pytorch"></a>深度学习预备篇——安装深度学习框架——pytorch</h1><span id="more"></span>
+
+<h2 id="pytorch简介"><a href="#pytorch简介" class="headerlink" title="pytorch简介"></a>pytorch简介</h2><p>现在我们正处在人工智能的风口上，虽然话说得好“在风口上，一头猪都能起飞”，但是我们显然没法像猪一样飞起来，但是跑两步，至少装一个可以运行人工智能的环境是可以的，就算没法吃猪肉，也得看看猪跑。  </p>
+<p><code>pytorch</code>就是一个开源的<code>python</code>机器学习框架，主要由<code>facebook</code>的人工智能团队开发。这个框架采用类似于<code>numpy</code>的张量计算，可以使用GPU进行加速，有着自动微分系统的深度学习模块。</p>
+<h2 id="安装pytorch"><a href="#安装pytorch" class="headerlink" title="安装pytorch"></a>安装pytorch</h2><h3 id="conda的简介"><a href="#conda的简介" class="headerlink" title="conda的简介"></a>conda的简介</h3><p>我们首先要明确的是，<code>pytorch</code>是一个开源的python深度学习库，在安装pytorch之前我们得先安装python解释器。可能有人会说，安装python解释器难道不是小学二年级的内容吗，无非是下载python，添加到环境变量，再命令行输入python验证安装是否完成三部曲。这难道是很困难的事情吗？    </p>
+<p>可如果我们的在<del>生活中</del>学习中需要用到多个不同的python环境怎么办？安装多个python解释器之后如何在不同的环境中切换？而且可能在不同的版本下所用的库的版本还不尽相同，这时候我们就需要一个便捷的”环境管理器“来管理你电脑上的python环境了，这个管理器便是<code>conda</code>。再安装了<code>conda</code>之后，我们就可以在电脑里创建一个个”独立“的python环境，每个环境可以有不同的解释器，不同的库。可以说是十分方便了。   </p>
+<blockquote>
+<p>比如在复现其他人的研究成果的时候，他所用的<code>pytorch</code>版本和你的不一样，甚至你们的<code>python</code>解释器的版本都不一定完全相同。</p>
+</blockquote>
+<blockquote>
+<p>至少一行命令就可以安装python，这已经很香了<br>而且<code>conda</code>在安装需要的库时，会自动的分析依赖，可以在一定程度上解决环境总是崩溃的问题。</p>
+</blockquote>
+<h3 id="安装conda"><a href="#安装conda" class="headerlink" title="安装conda"></a>安装conda</h3><p>在安装<code>conda</code>的时候，我们可以选择安装<code>anaconda</code>这个Python发行版，这是一个致力于简化在科学计算中包管理和部署的发行版。</p>
+<p>但是这个的问题在于他过于的全面，而我们只是想要安装自己需要的包，因此我选择<code>miniconda</code>这个简化的<code>conda</code>安装方式，这个安装包中就只有<code>conda</code>和<code>python</code>两个程序。同时可以利用<code>conda</code>和<code>pip</code>这两个包管理器安装<code>anaconda</code>和<code>pypi</code>这两个包仓库中的所有包。</p>
+<blockquote>
+<p>这两者的比较，也可以参看<a target="_blank" rel="noopener" href="https://docs.conda.io/projects/conda/en/latest/user-guide/install/download.html#anaconda-or-miniconda">官方文档</a></p>
+</blockquote>
+<p>我们访问<code>miniconda</code>的<a target="_blank" rel="noopener" href="https://docs.conda.io/en/latest/miniconda.html">官方网站</a> ，下滑找到最新的<code>miniconda</code>安装包下载链接（Latest Miniconda Installer Links）。 </p>
+<p><img src="/blog/2021/11/13/%E5%AE%89%E8%A3%85pytorch%EF%BC%8C%E6%9D%A5%E6%9C%89%E6%B7%B1%E5%BA%A6%E7%9A%84%E5%AD%A6%E4%B9%A0/1.png" srcset="/blog/img/loading.gif" lazyload></p>
+<p>按照自己的电脑系统下载相应的安装包就可以了。也不大，就50M出头的样子。</p>
+<p>下载完成之后，我们运行这个安装包，一路下一步就可以了，一般情况下不会有什么要改动的地方。   </p>
+<p>安装完成之后，我们就会发现自己的开始菜单里多出来了两个快捷方式,</p>
+<p><img src="/blog/2021/11/13/%E5%AE%89%E8%A3%85pytorch%EF%BC%8C%E6%9D%A5%E6%9C%89%E6%B7%B1%E5%BA%A6%E7%9A%84%E5%AD%A6%E4%B9%A0/2.png" srcset="/blog/img/loading.gif" lazyload><br>在上面的那个快捷方式<strong>Anaconda Prompt</strong>是运行含有<code>conda</code>命令的CMD的快捷方式，而下面那个<strong>Anaconda Power Shell Prompt</strong>是运行含有<code>conda</code>命令的Power shell界面的快捷方式。因为我个人对于power shell更加的熟悉我们就是用下面的那个快捷方式。   </p>
+<p>这个时候肯定会有人好奇，竟然你都用power shell了，我们为啥不直接使用系统里已经有了的power shell，而要启动这里的这个显得有点奇怪的power shell呢？     </p>
+<p>如果你好奇，你可以在系统里的power shell里键入<code>conda</code>, 会发现系统会告诉你<code>conda并不是内部化外部应用程序</code>，马上又有人会说，这个表示<code>conda</code>这个程序所在的位置没有被添加进入系统的环境变量里，如果添加了之后就可以在系统的power shell里使用了，而且我在安装<code>miniconda</code>的时候，还看见了添加到环境变量的选项，只是默认的情况下没有勾选。确实，在默认的状态下，<code>conda</code>并不会被添加在环境变量中，因为在<code>conda</code>的所在目录下还有<code>python</code>，如果你将<code>conda</code>添加进入了环境变量，就有可能改变原来了系统自带的<code>python</code>解释器。所以在默认情况下<code>conda</code>是不会被添加到环境变量中的。不过如果你的电脑中并没有<code>python</code>，或者像我一样直接采用<code>conda</code>来管理电脑上的<code>python</code>环境，也可以直接将<code>conda</code>添加在环境变量中，而且在后面我们使用<code>VSCode</code>编写代码的时候，我们只有将<code>conda</code>添加进入环境变量，才可以直接运行代码。<del>当然，大概率还是有其它的办法，只是我太菜了不知道</del>    </p>
+<p>好，我们运行<strong>Anaconda Power Shell Prompt</strong>，打开了这个窗口</p>
+<p><img src="/blog/2021/11/13/%E5%AE%89%E8%A3%85pytorch%EF%BC%8C%E6%9D%A5%E6%9C%89%E6%B7%B1%E5%BA%A6%E7%9A%84%E5%AD%A6%E4%B9%A0/3.png" srcset="/blog/img/loading.gif" lazyload></p>
+<p>这个窗口的出现就标志着我们已经把<code>conda</code>正确的安装在我们的电脑之中了。</p>
+<h3 id="conda的使用"><a href="#conda的使用" class="headerlink" title="conda的使用"></a>conda的使用</h3><p>我们很容易发现，这个power shell与我们常用的power shell之家最大的不同就是在PS的前面多了一个（base），这个括号就表示我们目前所处的环境是<code>conda</code>自动生成的初始环境(base环境)。<br>在我安装的时候，这个环境的python版本是3.9，一会我们就会在这个环境之中安装我们本文的主角<strong>pytorch</strong>,不过在安装之前，我们先来熟悉一下<code>conda</code>，毕竟我们会使用这个包管理器来安装我们需要用到的大部分包。   </p>
+<h4 id="使用conda创建与删除环境"><a href="#使用conda创建与删除环境" class="headerlink" title="使用conda创建与删除环境"></a>使用conda创建与删除环境</h4><blockquote>
+<p>在没有指明的情况下，请在<strong>Anaconda Powershell Prompt</strong>环境中使用以下的命令</p>
+</blockquote>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">conda</span> <span class="hljs-literal">info</span> -e<br></code></pre></td></tr></table></figure>
+<p>这个命令会展示目前系统中已经创建的环境，输入后的效果：</p>
+<figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs taggerscript"># conda environments:<br>#<br>base                  *  C:<span class="hljs-symbol">\U</span>sers<span class="hljs-symbol">\r</span>icardo.DESKTOP-N6OVBK5<span class="hljs-symbol">\P</span>rograms<span class="hljs-symbol">\m</span>iniconda3<br>py310                    C:<span class="hljs-symbol">\U</span>sers<span class="hljs-symbol">\r</span>icardo.DESKTOP-N6OVBK5<span class="hljs-symbol">\P</span>rograms<span class="hljs-symbol">\m</span>iniconda3<span class="hljs-symbol">\e</span>nvs<span class="hljs-symbol">\p</span>y310<br></code></pre></td></tr></table></figure>
+<p>其中会指出环境所在的文件夹，星号标志当前所处的环境。  </p>
+<blockquote>
+<p>这里也可以使用<code>conda env list</code></p>
+</blockquote>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">conda</span> create --name newev python=<span class="hljs-number">3</span>.<span class="hljs-number">10</span><br></code></pre></td></tr></table></figure>
+<p>使用这个命令来在创建一个新的环境，这个环境的由“–name”之后的内容决定，这个环境的python解释器版本由python&#x3D;决定，注意这里的环境只用指定到3.x，<code>conda</code>会自动寻找这个系列下最新的版本安装。<br>在创建了一个环境之后，使用</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs applescript">conda <span class="hljs-built_in">activate</span> &lt;envirname&gt;<br></code></pre></td></tr></table></figure>
+<p>来切换到相应的环境，<code>envirname</code>是你自己指定的环境的名称。  </p>
+<p>如果像退出这个环境，回到<code>conda</code>的默认环境，使用</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">conda deactivate</span><br></code></pre></td></tr></table></figure>
+<p>再使用这个命令之后，我们就会回到base环境，我们可以通过看PS前面的名字来确认这一点。   </p>
+<h4 id="使用conda管理自己的库"><a href="#使用conda管理自己的库" class="headerlink" title="使用conda管理自己的库"></a>使用conda管理自己的库</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">conda list</span><br></code></pre></td></tr></table></figure>
+<p>这个命令会展示在在当前环境中安装的包。而且注意，虽然我们使用的是<code>conda</code>来管理与安装库，但是这并不表示python自带的pip包管理工具就被废弃，而且就算你通过pip安装的python库页会被<code>conda</code>上面的命令正确的识别到。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">conda list -n <span class="hljs-tag">&lt;<span class="hljs-name">envirname</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>使用这个命令来查看指定的环境中安装的包。    </p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vim">conda <span class="hljs-built_in">search</span> <span class="hljs-symbol">&lt;pkgname&gt;</span><br></code></pre></td></tr></table></figure>
+<p>搜索指定的包的信息，比如我输入</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">conda search numpy</span><br></code></pre></td></tr></table></figure>
+<p><code>conda</code>会给我返回</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs awk">Loading channels: done<br><span class="hljs-comment"># Name                       Version           Build  Channel</span><br>······<br>numpy                         <span class="hljs-number">1.21</span>.<span class="hljs-number">2</span>  py37hfca59bb_0  anaconda<span class="hljs-regexp">/pkgs/m</span>ain<br>numpy                         <span class="hljs-number">1.21</span>.<span class="hljs-number">2</span>  py38hfca59bb_0  anaconda<span class="hljs-regexp">/pkgs/m</span>ain<br>numpy                         <span class="hljs-number">1.21</span>.<span class="hljs-number">2</span>  py39hfca59bb_0  anaconda<span class="hljs-regexp">/pkgs/m</span>ain<br></code></pre></td></tr></table></figure>
+<p><code>conda</code>就会返回给我们包的版本，相关的python版本，下载的渠道  </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">conda install <span class="hljs-tag">&lt;<span class="hljs-name">pkgname</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>使用这个命令在当前所处的环境里安装我们所需要的包</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">conda install -n <span class="hljs-tag">&lt;<span class="hljs-name">envname</span>&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-name">pkgname</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>使用“-n”参数来指定一个环境安装我们需要的包</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vim">conda <span class="hljs-keyword">update</span> -n <span class="hljs-symbol">&lt;envname&gt;</span> <span class="hljs-symbol">&lt;pkgname&gt;</span><br></code></pre></td></tr></table></figure>
+<p>使用这个命令来更新指定的包</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vim">conda <span class="hljs-built_in">remove</span> -n <span class="hljs-symbol">&lt;envname&gt;</span> <span class="hljs-symbol">&lt;pkgname&gt;</span><br></code></pre></td></tr></table></figure>
+<p>使用这个命令删除指定环境中我们所不需要的包<br>分别使用</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs vim">conda <span class="hljs-keyword">update</span> conda <br>conda <span class="hljs-keyword">update</span> <span class="hljs-keyword">python</span><br></code></pre></td></tr></table></figure>
+<p>来升级<code>conda</code>与<code>python</code></p>
+<blockquote>
+<p>注意，假设现在python版本是3.5，则只会升级到3.5系列的最新版</p>
+</blockquote>
+<h4 id="使用conda的国内镜像源"><a href="#使用conda的国内镜像源" class="headerlink" title="使用conda的国内镜像源"></a>使用conda的国内镜像源</h4><p>由于部分原因，使用conda的默认镜像源安装我们需要的库可能花费的时间较长，或者提示网络连接失败等等。为了解决这个问题，我们可以使用清华大学提供的镜像源，镜像站提供了相关设置的<a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/">帮助文档</a>，根据文档的指示一步步设置就可以了。   </p>
+<h3 id="使用conda安装pytorch"><a href="#使用conda安装pytorch" class="headerlink" title="使用conda安装pytorch"></a>使用conda安装pytorch</h3><p>我们访问pytorch的<a target="_blank" rel="noopener" href="https://pytorch.org/">官方网站</a>,我们可以轻松在首页就找到这个表格<br><img src="/blog/2021/11/13/%E5%AE%89%E8%A3%85pytorch%EF%BC%8C%E6%9D%A5%E6%9C%89%E6%B7%B1%E5%BA%A6%E7%9A%84%E5%AD%A6%E4%B9%A0/4.png" srcset="/blog/img/loading.gif" lazyload><br>先简单介绍一下这个表格的每一行，第一行是选择我们安装<code>pytorch</code>的版本，是稳定版，预览版，还是长期支持版。第二行是选择我们索要下载的操作系统，这里就默认大家都是用Windows了，第三行是选择我们安装<code>pytorch</code>的方式，可以看见有我们刚学习的<code>conda</code>，我们很熟悉的<code>pip</code>, 还有两种其他的方式。我们选择<code>conda</code>。第三行是我们所使用的语言，我们自然选择<code>python</code>。然后是第四行，“Compute Platform”， 如果直译的话是计算平台，就是我们选择用来计算的设备。这里就是又一个新的知识点了。一般来说，我们在使用电脑时，都是使用CPU作为计算的主力，显卡（GPU)一般只是用来输出图像，但在深度学习出现后，人们发现显卡原本专精于图形计算的计算力也很适用于深度学习中人工神经网络的计算。为了能够使用GPU的算力，而不是让它仅仅输出图像，我们就得下载相关的工具，这个工具就是CUDA。当然，这种比较强大的能力并不是只要下载一个CUDA就可以拥有的，<del>你还得有钱</del>你还得拥有一块英伟达的显卡，如果你没有显卡，那你就只能老老实实的使用自己的CPU进行计算了，在表格的第四行选择CPU。而对于我们<del>土豪</del>有显卡的同学，我们得先确定确定自己电脑上CUDA的版本，打开我们的老朋友power shell，输入</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">nvidia-smi</span><br></code></pre></td></tr></table></figure>
+<p>这是英伟达显卡的一个监控命令，可以看见当前GPU的使用情况，我们从这里来看自己的CUDA版本。</p>
+<p>在我的RTX3060笔记本上，输出是这样的</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">Mon Nov 15 10:43:50 2021<br>+-----------------------------------------------------------------------------+<br>|<span class="hljs-string"> NVIDIA-SMI 462.36       Driver Version: 462.36       CUDA Version: 11.2     </span>|<br>|<span class="hljs-string">-------------------------------+----------------------+----------------------+</span><br><span class="hljs-string"></span>|<span class="hljs-string"> GPU  Name            TCC/WDDM </span>|<span class="hljs-string"> Bus-Id        Disp.A </span>|<span class="hljs-string"> Volatile Uncorr. ECC </span>|<br>|<span class="hljs-string"> Fan  Temp  Perf  Pwr:Usage/Cap</span>|<span class="hljs-string">         Memory-Usage </span>|<span class="hljs-string"> GPU-Util  Compute M. </span>|<br>|<span class="hljs-string">                               </span>|<span class="hljs-string">                      </span>|<span class="hljs-string">               MIG M. </span>|<br>|<span class="hljs-string">===============================+======================+======================</span>|<br>|<span class="hljs-string">   0  GeForce RTX 306... WDDM  </span>|<span class="hljs-string"> 00000000:01:00.0 Off </span>|<span class="hljs-string">                  N/A </span>|<br>|<span class="hljs-string"> N/A   49C    P0    19W /  N/A </span>|<span class="hljs-string">    121MiB /  6144MiB </span>|<span class="hljs-string">      0%      Default </span>|<br>|<span class="hljs-string">                               </span>|<span class="hljs-string">                      </span>|<span class="hljs-string">                  N/A </span>|<br>+-------------------------------+----------------------+----------------------+<br><br>+-----------------------------------------------------------------------------+<br>|<span class="hljs-string"> Processes:                                                                  </span>|<br>|<span class="hljs-string">  GPU   GI   CI        PID   Type   Process name                  GPU Memory </span>|<br>|<span class="hljs-string">        ID   ID                                                   Usage      </span>|<br>|<span class="hljs-string">=============================================================================</span>|<br>|<span class="hljs-string">  No running processes found                                                 </span>|<br>+-----------------------------------------------------------------------------+<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：以下内容仅供参考，我只能说，我这样是成功了的，不代表所有人都可以成功</p>
+</blockquote>
+<p>在表格的第一行，我们可以看见我电脑上CUDA的版本是11.2，我们回到<code>pytorch</code>的官网，发现它的表格中只有cuda10.2与cuda11.3两个版本供我们选择，虽然我的电脑上的<code>cuda</code>只是11，2的，但是我选择的仍是cuda11.3版本的，因为3060貌似是不支持cuda10的了。<del>玄学开始了</del>我们在表格中选择完之后，就会得到一句命令，把这个命令复制到<strong>Anaconda Power shell Prompt</strong>中去运行，在提示确认的地方回车，就会开始下载安装<code>pytorch</code>，我们耐心等待一段时间。<br>在安装完成之后，我们来到了<del>最激动人心的</del>验证安装是否成功以及cuda是否能够被正确调用的环节，我们首先输入</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">conda list</span><br></code></pre></td></tr></table></figure>
+<p>查看当前的环境中是否已经有<code>pytorch</code>这个库，一般来说，这一步不会有大问题。<br>然后我们输入</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">python</span><br></code></pre></td></tr></table></figure>
+<p>打开python的交互式解释器，输入</p>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs elm"><span class="hljs-keyword">import</span> torch<br></code></pre></td></tr></table></figure>
+<p>看看能否正确的导入这个库，这个导入的过程可能有点长，不要紧张    </p>
+<p>如果这锅过程没有报错的话，就说明导入正常了，我们简单的使用一下这个库来进一步判断，输入</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs stylus">x = torch<span class="hljs-selector-class">.rand</span>(<span class="hljs-number">3</span>,<span class="hljs-number">5</span>)<br><span class="hljs-function"><span class="hljs-title">print</span><span class="hljs-params">(x)</span></span><br></code></pre></td></tr></table></figure>
+<p>输出</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs lua">tensor(<span class="hljs-string">[[0.7280, 0.0764, 0.1278, 0.0408, 0.8655],</span><br><span class="hljs-string">        [0.8270, 0.2127, 0.1831, 0.0908, 0.6578],</span><br><span class="hljs-string">        [0.8396, 0.4007, 0.2550, 0.8508, 0.4947]]</span>)<br></code></pre></td></tr></table></figure>
+<p>这里是输出的均是随机数，如果数不一样才正常。</p>
+<p>我们在验证一下是否可以调用<code>cuda</code>, 输入</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">print</span><span class="hljs-params">(torch.cuda.is_available()</span></span>)<br></code></pre></td></tr></table></figure>
+<p>如果输出True就是皆大欢喜，安装成功，如果输出False，那<del>建议放弃治疗</del>我也爱莫能助，毕竟我这一路下来虽然在<code>cuda</code>的版本上有点不对劲的地方，但他就是给我返回了</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ada"><span class="hljs-literal">True</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>在安装<code>pytorch</code>的这一路下来，我在网上查了无数的资料，似乎在安装<code>pytorch</code>的一路上就死了不少的人<del>大概是因为他们是在Ubuntu上安装的</del>，特别是调用<code>cuda</code>的那里。不过我按照<a target="_blank" rel="noopener" href="https://pytorch.org/get-started/locally/">官方文档</a>一路下来，没有出什么大的幺蛾子，只能说希望我自己的经历能对大家有所帮助吧。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/blog/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/">#技术笔记</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>安装pytorch，来有深度的学习</div>
+      <div>https://jackfiled.github.io/blog/2021/11/13/安装pytorch，来有深度的学习/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ricardo Ren</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年11月13日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/blog/2021/11/17/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%AF%BC%E8%AE%BA%E7%AC%94%E8%AE%B0/" title="程序设计与计算导论笔记">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">程序设计与计算导论笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/blog/2021/10/30/%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E6%89%93%E5%BC%80VSCode/" title="在浏览器中打开VSCode">
+                        <span class="hidden-mobile">在浏览器中打开VSCode</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004429号-1
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/events.js" ></script>
+<script  src="/blog/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/blog/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,603 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/favicon.ico">
+  <link rel="icon" href="/blog/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ricardo Ren">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="代码大作业初体验在大学也呆了一年了，终于遇上了第一个需要多人合作的写代码项目。从四月底分组完成，任务部署下来到七月初接近尾声，在这两个多月的时间里，也算是经历了不少，学到了不少。">
+  
+  
+  
+  <title>人生代码大作业初体验 - Ricardo的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jackfiled.github.io","root":"/blog/","version":"1.9.4","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/blog/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/blog/js/utils.js" ></script>
+  <script  src="/blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/blog/">
+      <strong>Ricardo Ren</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/blog/img/banner.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">人生代码大作业初体验</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-07-27 11:34" pubdate>
+          2022年7月27日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          23 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">人生代码大作业初体验</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="代码大作业初体验"><a href="#代码大作业初体验" class="headerlink" title="代码大作业初体验"></a>代码大作业初体验</h1><p>在大学也呆了一年了，终于遇上了第一个需要多人合作的写代码项目。从四月底分组完成，任务部署下来到七月初接近尾声，在这两个多月的时间里，也算是经历了不少，学到了不少。</p>
+<span id="more"></span>
+
+<h2 id="项目背景"><a href="#项目背景" class="headerlink" title="项目背景"></a>项目背景</h2><p>项目的主体是一个公交车的自动调度系统。公交车行驶在一个环形的轨道上，站点均匀的分布于其上；系统需要支持在每个站点上创建顺时针上车、逆时针上车和下车三种请求，并调度公交车按照一定的策略前往这些站点处理请求。</p>
+<blockquote>
+<p>在一开始我还以为这个策略需要自己优化，通过比较不同组之间调度完成请求需要的时间来决定优劣，想着还有点可怕，后来明确策略的规则是由老师指定。</p>
+<p>不过要是真的按照策略的优化来比较程序之间的优劣，想想还是很有趣的一件事情，不过用在一个计算机专业第一节专业课的大作业上显得就有点那啥了。</p>
+</blockquote>
+<p>项目要求使用C语言实现一个控制台中的核心版，再采用 <code>C/C++</code>相关的图形化框架实现一个动画版。</p>
+<p>整个小组由三个人组成。剩下的两个人有 <code>Dev C++</code>的经历，对于C语言的语法还算是比较熟悉。</p>
+<h2 id="项目的管理"><a href="#项目的管理" class="headerlink" title="项目的管理"></a>项目的管理</h2><h3 id="构建管理工具"><a href="#构建管理工具" class="headerlink" title="构建管理工具"></a>构建管理工具</h3><p>在开始一个项目之前，应该先选择一个合适的技术栈。在选择的时候，不能光考虑自己平时的习惯和技术的先进性，还得考虑组内所有人的合作效率，不能让代码就在你一个人的电脑上能跑起来，同时这个技术得是所有人都比较熟悉的，不能说你在那里吭哧吭哧的都把代码写完了，其他人还搁那看文档和教程。</p>
+<p>在 <code>C</code>语言项目的管理上，我首先排除了一个文件打天下的“传统”生产模式。这个方案的优点是所有人的十分熟悉，不需要任何额外的技术，也对 <code>C</code>语言的IDE没有任何的要求，不管你是用初学者的常用的 <code>Dev C++</code>，还是宇宙第一IDE <code>Visual Studio</code>，都可以打开这个单独的文件然后编译运行。但是，这个方案也就这一个优点了。且不论手工合并很多人撰写代码的复杂繁琐，光是一个长达1000行的文件就看得人头疼欲裂了。</p>
+<p>其次我排除了 <code>Visual Studio</code>，虽然VS也算是一个开箱即用的开发平台。第一，我自己对 <code>Visual Studio</code>不熟悉，如果在合作开发中遇到了一些VS的问题，我可能也不知道该如何解决。第二，我们验收使用的OJ平台采用的是 <code>GCC</code>编译器，不同于 <code>MSVC</code>编译器，虽然编译器行为不同的情况很少遇见，但为了避免这些一遇到就是纯玄学的问题，我还是采用 <code>MinGW64 GCC</code>编译器，这个编译器也算是我常用的编译器。</p>
+<p>最后我选择了利用 <code>cmake</code>组织项目，<code>MinGW64 GCC</code>作为编译器的方案。虽然 <code>cmake</code>还是一个比较新的玩意儿，但是只要编译的模板在一开始写好了，就基本上不用再修改了，并不需要所有人都熟悉 <code>cmake</code>。其次，<code>cmake</code>对于IDE没有依赖，几乎所有的主流 <code>C/C++ </code>IDE都支持利用  <code>cmake </code>管理 <code>C/C++</code>项目。我这次的推荐IDE是 <code>VSCode </code>，如果使用 <code>cmake</code>进行项目的管理，只需要安装一个插件就可以进行开发了，避免了很多麻烦的问题。</p>
+<h3 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h3><p>本次开发中老师提供了 <code>gitlab</code>作为代码托管平台，因此在开发过程中我们顺理成章的采用 <code>Git</code>作为版本管理的工具，<del>虽然组里的同学完全不会。</del></p>
+<p>为了避免对于 <code>Git</code>的学习占用了过多的开发时间，我没有在项目开始之前花费大量的时间指导他们学习 <code>Git</code>，而是再讲解了基本的 <code>Git</code>操作流程，比如 <code>commit push pull</code>之后就直接开始项目的开发，让大家在开发项目的过程中逐渐熟悉这个工具的使用，在工作中遇到问题再解决对应的问题。同时为了避免合并冲突等比较复杂的情景在早期出现，在最开始开发的时候我让大家都在不同的文件上工作，在后期必须要在同一文件上工作时再来解决合并的问题。</p>
+<blockquote>
+<p>我一直以为，在开发的过程中学习才是进步最快的方式</p>
+</blockquote>
+<p>而且采用 <code>Git</code>还有一个好处，采用 <code>Github</code>的 <code>Insight</code>功能可以轻松的看出大家的贡献值（）。</p>
+<p><img src="/blog/2022/07/27/big-homework/1.png" srcset="/blog/img/loading.gif" lazyload alt="img" title="贡献"></p>
+<h2 id="一些技术上的收获"><a href="#一些技术上的收获" class="headerlink" title="一些技术上的收获"></a>一些技术上的收获</h2><h3 id="面向对象永远的神"><a href="#面向对象永远的神" class="headerlink" title="面向对象永远的神"></a>面向对象永远的神</h3><p>在这次的开发过程中，核心版要求完全使用C语言进行开发，而在动画版中则可以采用C++进行开发。在编写动画版的代码时，我没有简单的重用核心版的代码，而是利用面向对象的方法完全重写了一遍，虽然重写耗费了我不少的时间，但是在重写了之后，程序中不再使用全局变量；控制公交车通过抽象为三个虚函数，不同的策略对这三个虚函数进行不同的实现来达到不同的调度效果，这样核心的控制流只用编写一遍，个人认为优于核心版中几种策略的控制流虽然大体相似但是在细节上均有不同。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 获得当前公交车应该前进的方向</span><br><span class="hljs-comment">     * @return 公交车前进的方向</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">int</span> <span class="hljs-title">GetBusDirection</span><span class="hljs-params">()</span> </span>= <span class="hljs-number">0</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 获得公交车在当前指定的策略下应该处理的请求</span><br><span class="hljs-comment">     * @return 请求指针</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">bus_query_t</span> *<span class="hljs-title">GetTargetQuery</span><span class="hljs-params">()</span> </span>= <span class="hljs-number">0</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 获取公交车现在可以顺便处理的请求</span><br><span class="hljs-comment">     * @return 请求指针</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">bus_query_t</span> *<span class="hljs-title">HandleBTWQuery</span><span class="hljs-params">()</span> </span>= <span class="hljs-number">0</span>;<br><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>然而我还是没有对象</p>
+</blockquote>
+<h3 id="Qt"><a href="#Qt" class="headerlink" title="Qt"></a>Qt</h3><p>具体参见<a target="_blank" rel="noopener" href="https://rrricardo.top/blog/2022/07/01/qt-learning/#more">初学Qt的一点小笔记</a>，<code>QProperyAnimation</code>那个的多重继承是真的惊艳到我了，感觉在 <code>C++</code>这样复杂又精妙的语言面前我还有很多可以学习的地方。</p>
+<h3 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h3><p>在这次的开发过程中我引入了 <code>Google Test</code>单元测试框架以进行单元测试，虽然并不是所有的模块都编写了对应的测试集，但是单元测试的引入真的帮助我们在开发初期解决的很多的小问题。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-built_in">TEST</span>(rail, CreateRails)<br>&#123;<br>    <span class="hljs-keyword">rail_node_t</span> *head = <span class="hljs-built_in">CreateRails</span>(<span class="hljs-number">10</span>, <span class="hljs-number">10</span>);<br>    <span class="hljs-keyword">rail_node_t</span> *p = head;<br><br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= <span class="hljs-number">10</span>; i++)<br>    &#123;<br>        <span class="hljs-built_in">EXPECT_EQ</span>(p-&gt;id, i);<br>        <span class="hljs-built_in">EXPECT_EQ</span>(p-&gt;next_node_distance, <span class="hljs-number">10</span>);<br>        <span class="hljs-built_in">EXPECT_EQ</span>(p-&gt;last_node_distance, <span class="hljs-number">10</span>);<br>        p = p-&gt;next_node;<br>    &#125;<br><br>    p = head-&gt;last_node;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">10</span>; i &gt;= <span class="hljs-number">1</span>; i--)<br>    &#123;<br>        <span class="hljs-built_in">EXPECT_EQ</span>(p-&gt;id, i);<br>        <span class="hljs-built_in">EXPECT_EQ</span>(p-&gt;next_node_distance, <span class="hljs-number">10</span>);<br>        <span class="hljs-built_in">EXPECT_EQ</span>(p-&gt;last_node_distance, <span class="hljs-number">10</span>);<br>        p = p-&gt;last_node;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h3><p>在开发的过程中总有一些重复性的简单工作，这时 <code>Python</code>这些脚本语言的妙处就展示出来了。由于核心版是采用线上的OJ平台进行测试，在提交的时候代码为单文件，于是我编写了一个<a target="_blank" rel="noopener" href="https://github.com/jackfiled/auto_bus/blob/master/main.py">脚本</a>来帮助我完成这个工作。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/blog/tags/%E9%9A%8F%E7%AC%94/">#随笔</a>
+      
+        <a href="/blog/tags/%E6%84%9F%E6%82%9F/">#感悟</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>人生代码大作业初体验</div>
+      <div>https://jackfiled.github.io/blog/2022/07/27/big-homework/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ricardo Ren</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年7月27日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/blog/2022/08/21/dotnet-come-to-go/" title=".net从入门到放弃再到入门">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">.net从入门到放弃再到入门</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/blog/2022/07/01/qt-learning/" title="初学Qt的一点小笔记">
+                        <span class="hidden-mobile">初学Qt的一点小笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004429号-1
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/events.js" ></script>
+<script  src="/blog/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/blog/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

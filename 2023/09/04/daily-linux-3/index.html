@@ -1,0 +1,627 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/favicon.ico">
+  <link rel="icon" href="/blog/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ricardo Ren">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="日用Linux挑战 第三篇成也开源，败也开源。">
+  
+  
+  
+  <title>日用Linux挑战 第三篇 - Ricardo的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jackfiled.github.io","root":"/blog/","version":"1.9.4","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/blog/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/blog/js/utils.js" ></script>
+  <script  src="/blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/blog/">
+      <strong>Ricardo Ren</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/blog/img/banner.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">日用Linux挑战 第三篇</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-09-04 14:47" pubdate>
+          2023年9月4日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          23 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">日用Linux挑战 第三篇</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="日用Linux挑战-第三篇"><a href="#日用Linux挑战-第三篇" class="headerlink" title="日用Linux挑战 第三篇"></a>日用Linux挑战 第三篇</h1><p>成也开源，败也开源。</p>
+<span id="more"></span>
+
+<h2 id="放弃-Wayland"><a href="#放弃-Wayland" class="headerlink" title="放弃 Wayland"></a>放弃 <code>Wayland</code></h2><h3 id="转向labwc"><a href="#转向labwc" class="headerlink" title="转向labwc"></a>转向<code>labwc</code></h3><p>在使用<code>Hyprland</code>这个平铺式窗口管理器大概三个月之后，我开始怀疑自己是否真的需要一个平铺式的窗口管理器。</p>
+<p>作为一个主打“平铺”式管理的桌面管理器，我却很少同时在一块屏幕上显示多个应用，都是将应用全屏之后在显示，再搭配<code>Meta+1\2\3</code>切换不同的<code>workspace</code>实现不同应用切换的功能。这让我开始思考，也许，我根本不适合使用一个“平铺式”的窗口管理器。其次，我常用的<code>IDE</code>——<code>IDEA</code>系列让我遇到了一个极为恶性的<code>bug</code>：代码重构的弹出式窗口需要很长的一段时间才能显示出来，其时间甚至足够我去喝口水上个厕所。如果我在上班，那么我肯定不会放弃这个显而易见的摸鱼机会，可惜不是。这个<code>bug</code>虽然不致命但是过于恶心，毕竟很好的重构思路被打断真的很想先把鼠标扔出去再把电脑砸了。</p>
+<p>然后我就开始研究工作在<code>wayland</code>显示协议之下的堆叠式窗口管理器。首先，我惊喜的发现，目前<code>Linux</code>下的两大主流的桌面环境都开始默认使用<code>wayland</code>显示协议，<del>虽然我并不打算将这两个臃肿的家伙请回来</del>。打开我们伟大的<code>Arch Linux Wiki</code>，打开<code>wayland</code>页面，这里已经贴心的为我们整理好了使用<code>wayland</code>显示协议的堆叠式窗口管理器：</p>
+<ul>
+<li><code>enlightenment</code>：进入官网一看，对于<code>wayland</code>的支持还是“实验性”阶段，pass</li>
+<li><code>hikari</code>：针对<code>FreeBSD</code>开发，pass</li>
+<li><code>KWin</code>：<code>KDE</code>使用的窗口管理器，pass</li>
+<li><code>Liri Shell</code>：不知为何被我华丽无视，pass</li>
+<li><code>labwc</code>：看上去还行，一会试试</li>
+<li><code>mutter</code>：<code>gnome</code>使用的窗口管理器，pass</li>
+<li><code>wayfire</code>：<code>aur</code>里面的官方包都不能过编译，这种粪软件还是算了吧</li>
+<li><code>weston</code>：<code>wayland</code>示例合成器总给人一种怪怪的感觉，pass</li>
+<li><code>wio</code>：官网连接被标记为<code>dead-link</code>，pass</li>
+</ul>
+<p>首先尝试<code>labwc</code>，虽然这个软件在<code>Github</code>上只有800多颗星，不过作为一个小而精的窗口管理器，这个哥们还是比较完美的适配了我的需求，虽然遇到诸多的小问题：</p>
+<ul>
+<li>没有提供在启动窗口管理器时设置环境变量的方法，导致只能修改<code>desktop</code>文件实现这个功能。</li>
+<li>设置触控板的自然滚动失败</li>
+</ul>
+<p>而且作为基于<code>wlroots</code>合成器开发的窗口管理器，可以完美继承我在<code>Hyprland</code>下的不少设置，像<code>waybar</code>、<code>hyprpaper</code>等等。</p>
+<h3 id="放弃"><a href="#放弃" class="headerlink" title="放弃"></a>放弃</h3><p>从今年五月份被<code>Hyprland</code>种草，切换到<code>Wayland</code>显示协议时算起，我已经使用了三个月的<code>Wayland</code>显示协议。刚刚切换到<code>labwc</code>使用没超过一周，我就遇到了在<code>wayland</code>下的最大缺陷：<code>matlab</code>没法正常的使用——虽然软件主界面还可以正常的打开，但是所有的子窗口都没办法打开。恰好那两天我必须要用<code>matlab</code>完成一个作业，我直接一波<code>sudo pacman -S plasma</code>润回了<code>KDE</code>。</p>
+<p>虽然这个故事听着可能有点突然，但确实就这么发生了，写作这篇博客时使用的桌面环境已经是<code>KDE</code>了。</p>
+<p>下面就简单讲讲这次使用<code>KDE</code>的美化思路。这次使用<code>KDE</code>几乎完全继承了之前的<a target="_blank" rel="noopener" href="https://rrricardo.top/blog/2023/01/15/daily-linux-0/">美化思路</a>，其中主要的变化为：</p>
+<ul>
+<li>使用<code>kitty</code>作为终端模拟器</li>
+<li>使用类似于<code>Windows</code>下的任务栏显示模式，而不是只显示图标</li>
+<li>继承了部分在<code>Hyprland</code>下的快捷键<ul>
+<li><code>Meta+F</code>全屏应用</li>
+<li><code>Meta+W</code>关闭应用</li>
+</ul>
+</li>
+</ul>
+<p><img src="/blog/2023/09/04/daily-linux-3/Screenshot_20230904_144149.png" srcset="/blog/img/loading.gif" lazyload></p>
+<h3 id="Fuck-You-NVIDIA"><a href="#Fuck-You-NVIDIA" class="headerlink" title="Fuck You NVIDIA"></a>Fuck You NVIDIA</h3><p><code>matlab</code>还不是给予最后一击的东西。当我搞到一台使用NVIDIA显卡的笔记本时，真正的噩梦才刚刚开始。首先是驱动，作为一个被<code>FUCK</code>的公司，NIVDIA现在在<code>Linux</code>上具有三个不同的驱动程序：<code>nouveau</code>开源实现的驱动程序，<code>nvidia</code>NVIDIA提供的私有驱动程序，<code>nvidia-open</code>NVIDIA提供的开源驱动程序，其中<code>nvidia-open</code>还在积极的开发阶段，显然是被<code>FUCK</code>太多推出的产物。</p>
+<p>参考<code>Hyprland</code>官方文档中对于NVIDIA的支持页面，需要安装<code>nvidia-open-dkms</code>包再加上几个内核参数。咔咔咔一顿操作之后，期待的等待电脑重启。<code>Linux</code>万年不变的启动信息刷过，然后电脑就黑屏了。</p>
+<p>作为一个经验丰富的NVIDIA受害者，我轻轻一搜就发现这个由于INTEL的内核驱动和NVIDIA内核驱动冲突导致的问题。然而现在不能进系统，我不得不紧急学习了一波内核启动参数，通过在<code>grub</code>中修改启动参数禁用<code>intel_i915</code>模块才将系统启动了起来。</p>
+<p>装好了驱动，现在开始装桌面环境。很遗憾，默认版本的<code>wlroots</code>在NVIDIA驱动下兼容性不佳，需要自行修改源代码自行编译，虽然有着万能的<code>AUR</code>辅助我们，但是好巧不巧，那段时间正好遇到<code>Hyprland</code>项目调整文件结构，使用<code>AUR</code>编译失败了。于是我不得不手动<code>clone</code>下来修改之后手动编译。</p>
+<p>历尽千难万险，终于进入了<code>Hyprland</code> 的桌面。   本来以为安装完成之后就可以愉快的享（gong）受（zuo）了，没想到是折磨的开始。</p>
+<p>首先是屏幕闪烁的问题，能明显感觉到屏幕会闪烁，出现的时机是完全随机的。按照<code>wiki</code>上的说明，在源代码上打上<code>patch</code>之后重新编译安装，没用。文档上还记录了一种“核武器”方式，但是需要修改内核配置和造成功耗提升，不敢试。然后是在<code>vscode</code>中遇到“屏幕冻结”的问题。这个问题在频繁上下滚动的时候特别容易出现，具体表现为滚动了但是屏幕上的一部分还是显示滚动之前的内容没有刷新。</p>
+<p>上述问题正好发生在我发现<code>matlab</code>没法在<code>wayland</code>下正常工作的时候，一怒之下我就回到了<code>KDE</code>。</p>
+<p>已经是2023年了，<code>Wayland</code>仍然是<code>Linux</code>桌面环境永远的痛。</p>
+<h2 id="双系统的奇妙bug"><a href="#双系统的奇妙bug" class="headerlink" title="双系统的奇妙bug"></a>双系统的奇妙bug</h2><p>上文中提到我搞到了一台使用NVIDIA显卡的笔记本，拥有了<strong>强劲</strong>图形性能怎么能不玩游戏呢。但是<code>Linux</code>对于游戏支持程序实在是一言难尽，具体可以查看这个系列前几篇我和原神的相爱相杀。于是我就选择了安装<code>Windows</code>和<code>Linux</code>双系统。</p>
+<p>由于这台笔记本支持安装多个<code>m.2</code>的硬盘位，因此我就将两个系统安装到了两个不同的硬盘中，使用<code>grub</code>切换在启动时需要进入哪个系统。</p>
+<h3 id="iwlwifi加载失败的问题"><a href="#iwlwifi加载失败的问题" class="headerlink" title="iwlwifi加载失败的问题"></a><code>iwlwifi</code>加载失败的问题</h3><p>虽然安装的过程一帆风顺，但是使用的过程却是波折连连。出现的第一个问题就是<code>iwlwifi</code>这个驱动程序在从<code>Windows</code>切换到<code>Linux</code>的启动过程中会启动失败。使用<code>dmesg</code>可以观察到如下的报错：</p>
+<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vbnet"><span class="hljs-symbol">iwlwifi:</span> probe <span class="hljs-keyword">of</span> xxxx:xx:xx:x failed <span class="hljs-keyword">with</span> <span class="hljs-keyword">error</span> -<span class="hljs-number">110</span><br></code></pre></td></tr></table></figure>
+
+<p>一通咕狗容易发现这样的一个<a target="_blank" rel="noopener" href="https://bugzilla.kernel.org/show_bug.cgi?id=209641#c55">bug</a>，似乎是由于<code>Windows</code>使用快速启动造成的。</p>
+<p>解决办法或者说“回避策略”有两个：</p>
+<ul>
+<li>关闭<code>Windows</code>的快速启动</li>
+<li>遇到这个问题了重启<code>Linux</code></li>
+</ul>
+<p>于是干掉快速启动。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/blog/tags/%E9%9A%8F%E7%AC%94/">#随笔</a>
+      
+        <a href="/blog/tags/Linux/">#Linux</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>日用Linux挑战 第三篇</div>
+      <div>https://jackfiled.github.io/blog/2023/09/04/daily-linux-3/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ricardo Ren</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年9月4日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/blog/2023/10/09/linux-genshin-cloud/" title="解决云原神无法在Linux中浏览器下运行的问题">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">解决云原神无法在Linux中浏览器下运行的问题</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/blog/2023/07/29/spring-boot-custom-authorize/" title="SpringBoot自定义注解实现权限控制">
+                        <span class="hidden-mobile">SpringBoot自定义注解实现权限控制</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004429号-1
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/events.js" ></script>
+<script  src="/blog/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/blog/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

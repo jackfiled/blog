@@ -1,0 +1,609 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/favicon.ico">
+  <link rel="icon" href="/blog/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ricardo Ren">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="安装Visual Studio 2019中遇到的坑在某个月黑风高的夜晚，我在折腾了很久的Python之后，突然感觉自己应该去学学C和C++，于是乎我便打算折腾一下在vscode上写C和C++。在网上一番搜寻之后，我发现了这篇知乎文章和这篇知乎文章,然后我就被安装MinGW编译器和配置一大堆的json文件给干碎了。于是，我决定转向传说中的宇宙第一IDE——Visual Studio。">
+  
+  
+  
+  <title>安装vs2019踩的坑 - Ricardo的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jackfiled.github.io","root":"/blog/","version":"1.9.4","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/blog/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/blog/js/utils.js" ></script>
+  <script  src="/blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/blog/">
+      <strong>Ricardo Ren</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/blog/img/banner.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">安装vs2019踩的坑</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-08-14 10:06" pubdate>
+          2021年8月14日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          15 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">安装vs2019踩的坑</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="安装Visual-Studio-2019中遇到的坑"><a href="#安装Visual-Studio-2019中遇到的坑" class="headerlink" title="安装Visual Studio 2019中遇到的坑"></a>安装Visual Studio 2019中遇到的坑</h1><p>在某个月黑风高的夜晚，我在折腾了很久的Python之后，突然感觉自己应该去学学C和C++，于是乎我便打算折腾一下在vscode上写C和C++。在网上一番搜寻之后，我发现了这篇<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/87864677">知乎文章</a>和这篇<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/147366852">知乎文章</a>,然后我就被安装MinGW编译器和配置一大堆的json文件给干碎了。<br><br>于是，我决定转向传说中的宇宙第一IDE——Visual Studio。<br></p>
+<span id="more"></span>
+<p>上网一查，现在最新的vs版本是2019，于是立刻进入<a target="_blank" rel="noopener" href="https://visualstudio.microsoft.com/zh-hans/vs/">Visual Studio官网</a>点击下载vs2019<del>enterprise</del>Community版。<br></p>
+<blockquote>
+<p>无他，就是太穷了。<br></p>
+</blockquote>
+<p>在点击下载链接之后，跳转到了感谢下载的界面。<br></p>
+<img src="/blog/2021/08/14/%E5%AE%89%E8%A3%85vs2019%E8%B8%A9%E7%9A%84%E5%9D%91/1.png" srcset="/blog/img/loading.gif" lazyload class title="感谢下载">
+<p>上面清楚的写着，下载将很快开始。<br>在经过漫长的等待之后，我下载下来了这个东西</p>
+<blockquote>
+<p>vs_community__355502915.1625217430.exe</p>
+</blockquote>
+<p>于是一波双击，飞快地下载安装选好工作负载，又在一波漫长的下载之后，我兴奋的双击打开了安装好的“vs2019”。</p>
+<p>但是！我却惊讶的发现，我安装的是Visual Studio 2017!<br>我当时就是一脸懵逼，想了想以为是自己在安装工作负载的时候选择错了vs的版本，于是我又打开了visual studio installer，却惊讶的发现，只能安装vs2017的社区版，专业版和企业版。</p>
+<blockquote>
+<p>不可能，微软的软件不会出错，一定是我自己选错了。</p>
+</blockquote>
+<p>我立刻卸载了电脑上的vs2017和Visual Studio Installer,再次前往vs的<a target="_blank" rel="noopener" href="https://visualstudio.microsoft.com/zh-hans/vs/">官网</a>,这次我前检查后检查，确定自己下载的是Visual Studio 2019的Community版本，在单击了下载链接之后，我又跳转到了感谢下载的界面。   </p>
+<img src="/blog/2021/08/14/%E5%AE%89%E8%A3%85vs2019%E8%B8%A9%E7%9A%84%E5%9D%91/1.png" srcset="/blog/img/loading.gif" lazyload class title="感谢下载">
+<p>但是这次，在令人十分无语的等待之后，<strong>我不得不点了下单击此处以重试</strong>。<br>在一段令人紧张的等待之后，Visual Studio Installer安装好了，我也失望的发现，我安装的仍然是vs2017。</p>
+<blockquote>
+<p>谢谢，电脑已经砸了。</p>
+</blockquote>
+<p>但是，作为一个程序员，我们不能说不！<br>于是，我想到，既然下载开始的如此之慢，要不，<b>挂个梯子</b>试试？<br>说做就做，我又卸载了Visual Studio Installer,在打开VPN之后，我又双打开了<a target="_blank" rel="noopener" href="https://visualstudio.microsoft.com/zh-hans/vs/">Visual Studio官网</a>, 怀着紧张而激动的心情，点击了vs2019社区版的下载按钮。仍然一如既往的跳转到了感谢下载的界面，不过这次，下载几乎立刻就开始了！</p>
+<blockquote>
+<p>OHHHHHHHHHHHHHHHHHHH</p>
+</blockquote>
+<p>接着就是双击，下载，安装，我打开Visual Studio Installer，让我安装的果然是vs2019！接着，我泪流满面的选好了工作负载，点击了下载。  </p>
+<h2 id="现在，我们来复盘一下"><a href="#现在，我们来复盘一下" class="headerlink" title="现在，我们来复盘一下"></a>现在，我们来复盘一下</h2><p>我记不清清楚我第一次下载时是否点击了<i>单击此处以重试</i>,但是我的第二次尝试时确定点击了的，在结合开了VPN立刻下载的”解法“，我便将注意力放在了这个按钮上。<br>这是点击重试之后的下载地址：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">https</span>://download.visualstudio.microsoft.com/download/pr/<span class="hljs-number">343898</span>a<span class="hljs-number">7</span>-<span class="hljs-number">7</span>d<span class="hljs-number">12</span>-<span class="hljs-number">4</span>faa-b<span class="hljs-number">5</span>df-<span class="hljs-number">958</span>b<span class="hljs-number">31</span>e<span class="hljs-number">57</span>b<span class="hljs-number">3</span>e/<span class="hljs-number">0</span>e<span class="hljs-number">17</span>eb<span class="hljs-number">53023</span>c<span class="hljs-number">8</span>a<span class="hljs-number">4</span>d<span class="hljs-number">07</span>e<span class="hljs-number">1</span>dfd<span class="hljs-number">201</span>e<span class="hljs-number">8</span>a<span class="hljs-number">0</span>ebff<span class="hljs-number">2</span>c<span class="hljs-number">56</span>c<span class="hljs-number">74</span>ad<span class="hljs-number">594</span>c<span class="hljs-number">8</span>f<span class="hljs-number">02521</span>fb<span class="hljs-number">5</span>b<span class="hljs-number">27</span>c<span class="hljs-number">7</span>db/vs_Community.exe<br></code></pre></td></tr></table></figure>
+<p>这是不点击重试的下载地址：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">https</span>://download.visualstudio.microsoft.com/download/pr/<span class="hljs-number">45</span>dfa<span class="hljs-number">82</span>b-c<span class="hljs-number">1</span>f<span class="hljs-number">8</span>-<span class="hljs-number">4</span>c<span class="hljs-number">27</span>-a<span class="hljs-number">5</span>a<span class="hljs-number">0</span>-<span class="hljs-number">1</span>fa<span class="hljs-number">7</span>a<span class="hljs-number">864</span>ae<span class="hljs-number">21</span>/<span class="hljs-number">9</span>dd<span class="hljs-number">77</span>a<span class="hljs-number">8</span>d<span class="hljs-number">1121</span>fd<span class="hljs-number">4382494</span>e<span class="hljs-number">40840</span>faeba<span class="hljs-number">0</span>d<span class="hljs-number">7339</span>a<span class="hljs-number">594</span>a<span class="hljs-number">1603</span>f<span class="hljs-number">0573</span>d<span class="hljs-number">0013</span>b<span class="hljs-number">0</span>f<span class="hljs-number">0</span>fa<span class="hljs-number">5</span>/vs_Community.exe<br></code></pre></td></tr></table></figure>
+<p>下面是我挂着梯子下载下来的安装程序的MD5值：</p>
+<blockquote>
+<p>7382158e92bb9af82a24c5c3eba80c20</p>
+</blockquote>
+<p>下面是不单击重试下载的安装程序的MD5值：</p>
+<blockquote>
+<p>7382158e92bb9af82a24c5c3eba80c20</p>
+</blockquote>
+<p>下面是单击重试下载的安装程序的MD5值：</p>
+<blockquote>
+<p>88f28257ae1e6ce4a7ebd5d6f7f94f0f</p>
+</blockquote>
+<p>至此，真相已经摆在了我的面前。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在感谢下载的页面，如果你耐心等待，那么在一段时间后下载的就是vs2019，但是如果你是一个急性子，点击了“单击此处以重试”的按钮。那么你下载的就是vs2017的版本。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/blog/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/">#技术笔记</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>安装vs2019踩的坑</div>
+      <div>https://jackfiled.github.io/blog/2021/08/14/安装vs2019踩的坑/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ricardo Ren</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年8月14日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/blog/2021/10/30/%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E6%89%93%E5%BC%80VSCode/" title="在浏览器中打开VSCode">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">在浏览器中打开VSCode</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004429号-1
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/events.js" ></script>
+<script  src="/blog/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/blog/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

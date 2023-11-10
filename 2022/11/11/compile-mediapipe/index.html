@@ -1,0 +1,680 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/favicon.ico">
+  <link rel="icon" href="/blog/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ricardo Ren">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="编译MediaPipe框架">
+  
+  
+  
+  <title>编译MediaPipe框架 - Ricardo的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jackfiled.github.io","root":"/blog/","version":"1.9.4","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/blog/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/blog/js/utils.js" ></script>
+  <script  src="/blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/blog/">
+      <strong>Ricardo Ren</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/blog/img/banner.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">编译MediaPipe框架</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-11-11 22:20" pubdate>
+          2022年11月11日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          13k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          107 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">编译MediaPipe框架</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="编译MediaPipe框架"><a href="#编译MediaPipe框架" class="headerlink" title="编译MediaPipe框架"></a>编译MediaPipe框架</h1><span id="more"></span>
+
+<p>最近开始研究自己的大创项目，一个关于动作捕捉的小玩意儿，第一步就是<del>抄袭开源代码</del>借鉴他人优秀成果。在众多的项目中，我看上了这个Google开源的优秀框架，先把这个项目在本地上跑起来再说。这篇文章就记录了我编译这个框架的过程。</p>
+<blockquote>
+<p>在我写完这篇文章之后，我就从<code>WSL</code>润到了<code>Arch Linux</code>，然而我还是有编译<code>MediaPipe</code>的需求，所以这篇文章就增加了<code>Arch Linux</code>下编译<code>MediaPipe</code>的过程。</p>
+</blockquote>
+<p>首先是在<code>Arch Linux</code>下编译的过程。</p>
+<h2 id="编译环境概述"><a href="#编译环境概述" class="headerlink" title="编译环境概述"></a>编译环境概述</h2><p>使用<code>Arch Linux</code>，需要注意的是<code>Arch Linux</code>采用滚动更新，目前的安装方法可能在不久的将来就不适用了。</p>
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><p>首先安装<code>bazelisk</code>，由于我安装了<code>pnpm</code>，直接使用<code>pnpm install -g @bazel/bazelisk</code>安装。</p>
+<p>然后使用<code>pacman</code>安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo pacman -S opencv ffmpeg jdk-openjdk git<br></code></pre></td></tr></table></figure>
+
+<p>还有编译的过程中可能会涉及到<code>python</code>中的<code>numpy</code>软件包，我由于已经安装了<code>conda</code>来管理<code>python</code>环境，于是就采用<code>conda install numpy</code>在<code>base</code>环境中安装。</p>
+<p>克隆<code>MediaPipe</code>仓库：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">git clone https://github.com/google/mediapipe.git<br></code></pre></td></tr></table></figure>
+
+<p>由于<code>pacman</code>仓库中安装的<code>opencv</code>版本是最新的<code>opencv4</code>，我们需要修改<code>MediaPipe</code>中的配置文件来适配，修改<code>third_party/opencv_linux.BUILD</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># Description:</span><br><span class="hljs-comment">#   OpenCV libraries for video/image processing on Linux</span><br><br>licenses([<span class="hljs-string">&quot;notice&quot;</span>])  <span class="hljs-comment"># BSD license</span><br><br>exports_files([<span class="hljs-string">&quot;LICENSE&quot;</span>])<br><br><span class="hljs-comment"># The following build rule assumes that OpenCV is installed by</span><br><span class="hljs-comment"># &#x27;apt-get install libopencv-core-dev libopencv-highgui-dev \&#x27;</span><br><span class="hljs-comment"># &#x27;                libopencv-calib3d-dev libopencv-features2d-dev \&#x27;</span><br><span class="hljs-comment"># &#x27;                libopencv-imgproc-dev libopencv-video-dev&#x27;</span><br><span class="hljs-comment"># on Debian Buster/Ubuntu 18.04.</span><br><span class="hljs-comment"># If you install OpenCV separately, please modify the build rule accordingly.</span><br>cc_library(<br>    name = <span class="hljs-string">&quot;opencv&quot;</span>,<br>    hdrs = glob([<br>        <span class="hljs-comment"># For OpenCV 4.x</span><br>        <span class="hljs-comment">#&quot;include/aarch64-linux-gnu/opencv4/opencv2/cvconfig.h&quot;,</span><br>        <span class="hljs-comment">#&quot;include/arm-linux-gnueabihf/opencv4/opencv2/cvconfig.h&quot;,</span><br>        <span class="hljs-comment">#&quot;include/x86_64-linux-gnu/opencv4/opencv2/cvconfig.h&quot;,</span><br>        <span class="hljs-comment"># 将下面这行取消注释</span><br>        <span class="hljs-string">&quot;include/opencv4/opencv2/**/*.h*&quot;</span>,<br>    ]),<br>    includes = [<br>        <span class="hljs-comment"># For OpenCV 4.x</span><br>        <span class="hljs-comment">#&quot;include/aarch64-linux-gnu/opencv4/&quot;,</span><br>        <span class="hljs-comment">#&quot;include/arm-linux-gnueabihf/opencv4/&quot;,</span><br>        <span class="hljs-comment">#&quot;include/x86_64-linux-gnu/opencv4/&quot;,</span><br>        <span class="hljs-comment"># 将下面这行取消注释</span><br>        <span class="hljs-string">&quot;include/opencv4/&quot;</span>,<br>    ],<br>    linkopts = [<br>        <span class="hljs-string">&quot;-l:libopencv_core.so&quot;</span>,<br>        <span class="hljs-string">&quot;-l:libopencv_calib3d.so&quot;</span>,<br>        <span class="hljs-string">&quot;-l:libopencv_features2d.so&quot;</span>,<br>        <span class="hljs-string">&quot;-l:libopencv_highgui.so&quot;</span>,<br>        <span class="hljs-string">&quot;-l:libopencv_imgcodecs.so&quot;</span>,<br>        <span class="hljs-string">&quot;-l:libopencv_imgproc.so&quot;</span>,<br>        <span class="hljs-string">&quot;-l:libopencv_video.so&quot;</span>,<br>        <span class="hljs-string">&quot;-l:libopencv_videoio.so&quot;</span>,<br>    ],<br>    visibility = [<span class="hljs-string">&quot;//visibility:public&quot;</span>],<br>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="编译-1"><a href="#编译-1" class="headerlink" title="编译"></a>编译</h3><p>跑一下实例中的<code>Hello, World</code>。</p>
+<p>首先设置一个环境变量：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$</span><span class="bash"> <span class="hljs-built_in">export</span> GLOG_logtostderr=1</span><br></code></pre></td></tr></table></figure>
+
+<p>然后一把梭哈：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">bazel run --define MEDIAPIPE_DISABLE_GPU=1 \<br>    mediapipe/examples/desktop/hello_world:hello_world<br></code></pre></td></tr></table></figure>
+
+<p>在第一次编译的时候会下载大量的依赖文件，如果遇到网络错误可以多试几次，<del>我试了三次才完成</del>。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs shell">Starting local Bazel server and connecting to it...<br>DEBUG: /home/ricardo/.cache/bazel/_bazel_ricardo/9d4c3ea39592a9aa5075148d2a9caf3e/external/org_tensorflow/third_party/repo.bzl:132:14: <br>Warning: skipping import of repository &#x27;com_google_absl&#x27; because it already exists.<br>DEBUG: /home/ricardo/.cache/bazel/_bazel_ricardo/9d4c3ea39592a9aa5075148d2a9caf3e/external/org_tensorflow/third_party/repo.bzl:132:14: <br>Warning: skipping import of repository &#x27;com_google_benchmark&#x27; because it already exists.<br>DEBUG: /home/ricardo/.cache/bazel/_bazel_ricardo/9d4c3ea39592a9aa5075148d2a9caf3e/external/org_tensorflow/third_party/repo.bzl:132:14: <br>Warning: skipping import of repository &#x27;flatbuffers&#x27; because it already exists.<br>DEBUG: /home/ricardo/.cache/bazel/_bazel_ricardo/9d4c3ea39592a9aa5075148d2a9caf3e/external/org_tensorflow/third_party/repo.bzl:132:14: <br>Warning: skipping import of repository &#x27;pybind11_bazel&#x27; because it already exists.<br>DEBUG: /home/ricardo/.cache/bazel/_bazel_ricardo/9d4c3ea39592a9aa5075148d2a9caf3e/external/org_tensorflow/third_party/repo.bzl:132:14: <br>Warning: skipping import of repository &#x27;com_googlesource_code_re2&#x27; because it already exists.<br>DEBUG: /home/ricardo/.cache/bazel/_bazel_ricardo/9d4c3ea39592a9aa5075148d2a9caf3e/external/org_tensorflow/third_party/repo.bzl:132:14: <br>Warning: skipping import of repository &#x27;com_google_protobuf&#x27; because it already exists.<br>DEBUG: /home/ricardo/.cache/bazel/_bazel_ricardo/9d4c3ea39592a9aa5075148d2a9caf3e/external/org_tensorflow/third_party/repo.bzl:132:14: <br>Warning: skipping import of repository &#x27;com_google_googletest&#x27; because it already exists.<br>DEBUG: /home/ricardo/.cache/bazel/_bazel_ricardo/9d4c3ea39592a9aa5075148d2a9caf3e/external/org_tensorflow/third_party/repo.bzl:132:14: <br>Warning: skipping import of repository &#x27;com_github_gflags_gflags&#x27; because it already exists.<br>DEBUG: /home/ricardo/.cache/bazel/_bazel_ricardo/9d4c3ea39592a9aa5075148d2a9caf3e/external/org_tensorflow/third_party/repo.bzl:132:14: <br>Warning: skipping import of repository &#x27;zlib&#x27; because it already exists.<br>DEBUG: /home/ricardo/.cache/bazel/_bazel_ricardo/9d4c3ea39592a9aa5075148d2a9caf3e/external/org_tensorflow/third_party/repo.bzl:132:14: <br>Warning: skipping import of repository &#x27;rules_python&#x27; because it already exists.<br>DEBUG: /home/ricardo/.cache/bazel/_bazel_ricardo/9d4c3ea39592a9aa5075148d2a9caf3e/external/org_tensorflow/third_party/repo.bzl:132:14: <br>Warning: skipping import of repository &#x27;build_bazel_rules_apple&#x27; because it already exists.<br>DEBUG: /home/ricardo/.cache/bazel/_bazel_ricardo/9d4c3ea39592a9aa5075148d2a9caf3e/external/org_tensorflow/third_party/repo.bzl:132:14: <br>Warning: skipping import of repository &#x27;build_bazel_rules_swift&#x27; because it already exists.<br>DEBUG: /home/ricardo/.cache/bazel/_bazel_ricardo/9d4c3ea39592a9aa5075148d2a9caf3e/external/org_tensorflow/third_party/repo.bzl:132:14: <br>Warning: skipping import of repository &#x27;build_bazel_apple_support&#x27; because it already exists.<br>DEBUG: /home/ricardo/.cache/bazel/_bazel_ricardo/9d4c3ea39592a9aa5075148d2a9caf3e/external/org_tensorflow/third_party/repo.bzl:132:14: <br>Warning: skipping import of repository &#x27;xctestrunner&#x27; because it already exists.<br>DEBUG: /home/ricardo/.cache/bazel/_bazel_ricardo/9d4c3ea39592a9aa5075148d2a9caf3e/external/org_tensorflow/third_party/repo.bzl:132:14: <br>Warning: skipping import of repository &#x27;pybind11&#x27; because it already exists.<br>WARNING: /home/ricardo/Documents/code/cpp/mediapipe/mediapipe/framework/tool/BUILD:184:24: in cc_library rule //mediapipe/framework/tool:field_data_cc_proto: target &#x27;//mediapipe/framework/tool:field_data_cc_proto&#x27; depends on deprecated target &#x27;@com_google_protobuf//:cc_wkt_protos&#x27;: Only for backward compatibility. Do not use.<br>WARNING: /home/ricardo/Documents/code/cpp/mediapipe/mediapipe/framework/BUILD:54:24: in cc_library rule //mediapipe/framework:calculator_cc_proto: target &#x27;//mediapipe/framework:calculator_cc_proto&#x27; depends on deprecated target &#x27;@com_google_protobuf//:cc_wkt_protos&#x27;: Only for backward compatibility. Do not use.<br>INFO: Analyzed target //mediapipe/examples/desktop/hello_world:hello_world (84 packages loaded, 1747 targets configured).<br>INFO: Found 1 target...<br>Target //mediapipe/examples/desktop/hello_world:hello_world up-to-date:<br>  bazel-bin/mediapipe/examples/desktop/hello_world/hello_world<br>INFO: Elapsed time: 3.962s, Critical Path: 0.31s<br>INFO: 1 process: 1 internal.<br>INFO: Build completed successfully, 1 total action<br>INFO: Build completed successfully, 1 total action<br>I20230115 20:26:29.880736 47247 hello_world.cc:57] Hello World!<br>I20230115 20:26:29.880805 47247 hello_world.cc:57] Hello World!<br>I20230115 20:26:29.880817 47247 hello_world.cc:57] Hello World!<br>I20230115 20:26:29.880888 47247 hello_world.cc:57] Hello World!<br>I20230115 20:26:29.880957 47247 hello_world.cc:57] Hello World!<br>I20230115 20:26:29.881028 47247 hello_world.cc:57] Hello World!<br>I20230115 20:26:29.881096 47247 hello_world.cc:57] Hello World!<br>I20230115 20:26:29.881157 47247 hello_world.cc:57] Hello World!<br>I20230115 20:26:29.881198 47247 hello_world.cc:57] Hello World!<br>I20230115 20:26:29.881268 47247 hello_world.cc:57] Hello World!<br></code></pre></td></tr></table></figure>
+
+<h3 id="编译Pose解决方案的Android-Archieve"><a href="#编译Pose解决方案的Android-Archieve" class="headerlink" title="编译Pose解决方案的Android Archieve"></a>编译Pose解决方案的Android Archieve</h3><p>我的需求有一个是在安卓手机上使用<code>MediaPipe</code>的<code>Pose</code>解决方案，需要编译出一个<code>AAR</code>安卓打包文件。</p>
+<p>首先安装需要的依赖，<code>Android SDK</code>和<code>Android NDK</code>。这里使用<code>Android Studio</code>安装。</p>
+<p>然后创建一个<code>bazel</code>编译的目标文件：在目录<code>mediapipe/examples/android/src/java/com/google/mediapipe/apps/</code>下创建一个文件夹<code>pose_tracking_aar</code>，在其中创建<code>BUILD</code>文件，写入：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">load(<span class="hljs-string">&quot;//mediapipe/java/com/google/mediapipe:mediapipe_aar.bzl&quot;</span>, <span class="hljs-string">&quot;mediapipe_aar&quot;</span>)<br><br>mediapipe_aar(<br>    name = <span class="hljs-string">&quot;mediapipe_pose_tracking&quot;</span>,<br>    calculators = [<span class="hljs-string">&quot;//mediapipe/graphs/pose_tracking:pose_tracking_gpu_deps&quot;</span>],<br>)<br></code></pre></td></tr></table></figure>
+
+<p>使用命令编译：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs shell">bazel build -c opt --strip=ALWAYS \<br>    --host_crosstool_top=@bazel_tools//tools/cpp:toolchain \<br>    --fat_apk_cpu=arm64-v8a,armeabi-v7a \<br>    --legacy_whole_archive=0 \<br>    --features=-legacy_whole_archive \<br>    --copt=-fvisibility=hidden \<br>    --copt=-ffunction-sections \<br>    --copt=-fdata-sections \<br>    --copt=-fstack-protector \<br>    --copt=-Oz \<br>    --copt=-fomit-frame-pointer \<br>    --copt=-DABSL_MIN_LOG_LEVEL=2 \<br>    --linkopt=-Wl,--gc-sections,--strip-all \<br>    //mediapipe/examples/android/src/java/com/google/mediapipe/apps/pose_tracking_aar:mediapipe_pose_tracking.aar<br></code></pre></td></tr></table></figure>
+
+<p>如果在编译的过程中提示缺失<code>dx.jar</code>这个文件而且你用的SDK版本还是高于31的，那可能是SDK中缺失了这个文件，可以将SDk降级到30就含有这个文件了。我使用的解决办法比较离奇，我是将30版本的SDK文件中的这个文件软链接过来，解决了这个问题。</p>
+<p><img src="/blog/compile-mediapipe/2023-01-15-22-05-41-Screenshot_20230115_220521.png" srcset="/blog/img/loading.gif" lazyload></p>
+<p>编译消耗的时间可能比较的长，耐心等待即可。</p>
+<p>为了在手机上使用，我们还需要编译出<code>binarypb</code>文件，从Google的服务器上下载<code>tflite</code>文件。</p>
+<p>编译<code>binarypb</code>的过程比较的简单，编译目标在<code>mediapipe/graphs/pose_tracking</code>中，名称是<code>pose_tracking_gpu_binary_graph</code>，使用下列指令编译：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">bazel build -c opt //mediapipe/graphs/pose_tracking:pose_tracking_gpu_binary_graph<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在这里，Google默认添加了一个<code>input side packet</code>打开人体遮罩，如果不需要这个效果，需要删除<code>mediapipe/graphs/pose_tracking/pose_tracking_gpu.pbtxt</code>文件中的以下内容：</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs crmsh"><span class="hljs-comment"># Generates side packet to enable segmentation.</span><br><span class="hljs-keyword">node</span> <span class="hljs-title">&#123;</span><br><span class="hljs-title">  calculator</span>: <span class="hljs-string">&quot;ConstantSidePacketCalculator&quot;</span><br>  output_side_packet: <span class="hljs-string">&quot;PACKET:enable_segmentation&quot;</span><br>  node_options: &#123;<br>    [<span class="hljs-keyword">type</span>.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: &#123;<br>      packet &#123; bool_value: <span class="hljs-literal">true</span> &#125;<br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+</blockquote>
+<p>然后还需要从服务器上下载<code>tflite</code>文件，<code>Pose Tracking</code>这个解决方案需要两个<code>tflite</code>文件，第一个是<a target="_blank" rel="noopener" href="https://storage.googleapis.com/mediapipe-assets/pose_detection.tflite">pose_detection.tflite</a>，第二个文件则有三个不同的选择，分别对于解决方案中提供的三个质量版本：</p>
+<p><img src="/blog/compile-mediapipe/2023-01-19-20-20-40-Screenshot_20230119_202008.png" srcset="/blog/img/loading.gif" lazyload></p>
+<p>下载地址是<a target="_blank" rel="noopener" href="https://storage.googleapis.com/mediapipe-assets/pose_landmark_full.tflite">pose_landmark_full.tflite</a>，<a target="_blank" rel="noopener" href="https://storage.googleapis.com/mediapipe-assets/pose_landmark_heavy.tflite">pose_landmark_heavy.tflite</a>和<a target="_blank" rel="noopener" href="https://storage.googleapis.com/mediapipe-assets/pose_landmark_lite.tflite">pose_landmark_lite.tflite</a>。</p>
+<blockquote>
+<p>下面是原来使用<code>WSL</code>编译的过程。</p>
+</blockquote>
+<h2 id="编译环境概述-1"><a href="#编译环境概述-1" class="headerlink" title="编译环境概述"></a>编译环境概述</h2><p>我使用的基于WSL2的Ubuntu 22.04编译。主要是参考官方的<a target="_blank" rel="noopener" href="https://google.github.io/mediapipe/getting_started/install.html#installing-on-debian-and-ubuntu">安装文档</a>。</p>
+<h2 id="编译-2"><a href="#编译-2" class="headerlink" title="编译"></a>编译</h2><h3 id="环境准备-1"><a href="#环境准备-1" class="headerlink" title="环境准备"></a>环境准备</h3><p>首先安装两个基础性的包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo apt install build-essential git<br></code></pre></td></tr></table></figure>
+
+<p>然后安装MediaPipe的编译管理工具<code>bazel</code>，这里我是通过<code>npm</code>安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pnpm add -g @bazel/bazelisk<br></code></pre></td></tr></table></figure>
+
+<p>通过运行<code>bazel version</code>验证安装成功：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ bazel version<br>Bazelisk version: v1.13.2<br>WARNING: Invoking Bazel <span class="hljs-keyword">in</span> batch mode since it is not invoked from within a workspace (below a directory having a WORKSPACE file).<br>Extracting Bazel installation...<br>Build label: 5.3.2<br>Build target: bazel-out/k8-opt/bin/src/main/java/com/google/devtools/build/lib/bazel/BazelServer_deploy.jar<br>Build time: Wed Oct 19 18:22:12 2022 (1666203732)<br>Build timestamp: 1666203732<br>Build timestamp as int: 1666203732<br></code></pre></td></tr></table></figure>
+
+<p>安装<code>Miniconda</code>，再在环境中安装<code>numpy</code>。编译中依赖于<code>Python</code>和<code>numpy</code>，这里网上的资料汗牛充栋，我就不过多赘述。</p>
+<p>在准备玩上面的环境之后，我们就可以用<code>git</code>将MediaPipe的源代码克隆下来了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/google/mediapipe.git<br></code></pre></td></tr></table></figure>
+
+<h3 id="安装Opencv和FFmpeg"><a href="#安装Opencv和FFmpeg" class="headerlink" title="安装Opencv和FFmpeg"></a>安装Opencv和FFmpeg</h3><p>我这里选择的是手动编译安装opencv，安装的步骤参考官方的安装脚本，但是脚本中的不少内容已经过时。</p>
+<p>首先安装必要的依赖库和编译管理工具：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo apt install cmake ffmpeg libavformat-dev libdc1394-dev libgtk2.0-dev \<br>                       libjpeg-dev libpng-dev libswscale-dev libtbb2 libtbb-dev \<br>                       libtiff-dev<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：官方脚本中要求安装<code>libdc1394-22-dev</code>这个包，但是按照这篇<a target="_blank" rel="noopener" href="https://askubuntu.com/questions/1407580/unable-to-locate-package-libdc1394-22-dev">回答</a>，这个包已经被<code>libdc1392-dev</code>取代了。</p>
+</blockquote>
+<p>在临时文件夹中创建一个文件专门用来编译：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> /tmp<br>mkdir opencv<br><span class="hljs-built_in">cd</span> opencv/<br></code></pre></td></tr></table></figure>
+
+<p>使用<code>git</code>下载Opencv的源代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/opencv/opencv_contrib.git<br>git <span class="hljs-built_in">clone</span> https://github.com/opencv/opencv.git<br></code></pre></td></tr></table></figure>
+
+<p>在仓库中签出到指定的版本分支：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> opencv<br>git checkout 3.4<br><span class="hljs-built_in">cd</span> ../opencv_contrib<br>git checkout 3.4<br></code></pre></td></tr></table></figure>
+
+<p>创建编译文件，使用指定的<code>cmake</code>参数生成编译文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> ../opencv<br>mkdir release<br><span class="hljs-built_in">cd</span> release<br>cmake .. -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=/usr/<span class="hljs-built_in">local</span> \<br>          -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_opencv_ts=OFF \<br>          -DOPENCV_EXTRA_MODULES_PATH=/tmp/opencv/opencv_contrib/modules \<br>          -DBUILD_opencv_aruco=OFF -DBUILD_opencv_bgsegm=OFF -DBUILD_opencv_bioinspired=OFF \<br>          -DBUILD_opencv_ccalib=OFF -DBUILD_opencv_datasets=OFF -DBUILD_opencv_dnn=OFF \<br>          -DBUILD_opencv_dnn_objdetect=OFF -DBUILD_opencv_dpm=OFF -DBUILD_opencv_face=OFF \<br>          -DBUILD_opencv_fuzzy=OFF -DBUILD_opencv_hfs=OFF -DBUILD_opencv_img_hash=OFF \<br>          -DBUILD_opencv_js=OFF -DBUILD_opencv_line_descriptor=OFF -DBUILD_opencv_phase_unwrapping=OFF \<br>          -DBUILD_opencv_plot=OFF -DBUILD_opencv_quality=OFF -DBUILD_opencv_reg=OFF \<br>          -DBUILD_opencv_rgbd=OFF -DBUILD_opencv_saliency=OFF -DBUILD_opencv_shape=OFF \<br>          -DBUILD_opencv_structured_light=OFF -DBUILD_opencv_surface_matching=OFF \<br>          -DBUILD_opencv_world=OFF -DBUILD_opencv_xobjdetect=OFF -DBUILD_opencv_xphoto=OFF \<br>          -DCV_ENABLE_INTRINSICS=ON -DWITH_EIGEN=ON -DWITH_PTHREADS=ON -DWITH_PTHREADS_PF=ON \<br>          -DWITH_JPEG=ON -DWITH_PNG=ON -DWITH_TIFF=ON<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意安装自己下载源代码的地址修改<code>-DOPENCV_EXTRA_MUDULES_PATH</code>的值</p>
+</blockquote>
+<blockquote>
+<p>安装过程中还会下载一系列的依赖包，请注意自己的网络环境</p>
+</blockquote>
+<p>使用<code>make</code>指令进行编译和安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">make -j 16<br>sudo make install<br></code></pre></td></tr></table></figure>
+
+<p>编辑链接器的配置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo touch /etc/ld.so.conf.d/mp_opencv.conf<br>sudo bash -c  <span class="hljs-string">&quot;echo /usr/local/lib &gt;&gt; /etc/ld.so.conf.d/mp_opencv.conf&quot;</span><br>sudo ldconfig -v<br></code></pre></td></tr></table></figure>
+
+<p>然后进行MediaPipe的目录，用脚本进行配置文件的修改：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">./setup_opencv.sh config_only<br></code></pre></td></tr></table></figure>
+
+<h2 id="运行首个例子："><a href="#运行首个例子：" class="headerlink" title="运行首个例子："></a>运行首个例子：</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">export</span> GLOG_logtostderr=1<br>bazel run --define MEDIAPIPE_DISABLE_GPU=1 mediapipe/examples/desktop/hello_world:hello_world<br></code></pre></td></tr></table></figure>
+
+<p>在等待一段时间的下载依赖和编译之后，我们可以看见：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash">I20221110 22:00:50.899885 14357 hello_world.cc:57] Hello World!<br>I20221110 22:00:50.899948 14357 hello_world.cc:57] Hello World!<br>I20221110 22:00:50.899955 14357 hello_world.cc:57] Hello World!<br>I20221110 22:00:50.899960 14357 hello_world.cc:57] Hello World!<br>I20221110 22:00:50.899962 14357 hello_world.cc:57] Hello World!<br>I20221110 22:00:50.899982 14357 hello_world.cc:57] Hello World!<br>I20221110 22:00:50.900000 14357 hello_world.cc:57] Hello World!<br>I20221110 22:00:50.900025 14357 hello_world.cc:57] Hello World!<br>I20221110 22:00:50.900030 14357 hello_world.cc:57] Hello World!<br>I20221110 22:00:50.900193 14357 hello_world.cc:57] Hello World!<br></code></pre></td></tr></table></figure>
+
+<p>如果出现了各种奇怪的报错，那可以执行这条命令重新安装依赖再编译试试：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">bazel clean --expunge<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/blog/tags/C-C/">#C/C++</a>
+      
+        <a href="/blog/tags/%E5%8A%A8%E4%BD%9C%E6%8D%95%E6%8D%89/">#动作捕捉</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>编译MediaPipe框架</div>
+      <div>https://jackfiled.github.io/blog/2022/11/11/compile-mediapipe/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ricardo Ren</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年11月11日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/blog/2022/12/30/2022-final/" title="2022年终总结">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">2022年终总结</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/blog/2022/09/03/wsl-setup-csapp/" title="利用WSL设置CSAPP实验环境">
+                        <span class="hidden-mobile">利用WSL设置CSAPP实验环境</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004429号-1
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/events.js" ></script>
+<script  src="/blog/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/blog/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

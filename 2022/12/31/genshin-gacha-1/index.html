@@ -1,0 +1,611 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/favicon.ico">
+  <link rel="icon" href="/blog/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ricardo Ren">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="原神抽卡研究一">
+  
+  
+  
+  <title>原神抽卡研究一 - Ricardo的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jackfiled.github.io","root":"/blog/","version":"1.9.4","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/blog/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/blog/js/utils.js" ></script>
+  <script  src="/blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/blog/">
+      <strong>Ricardo Ren</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/blog/img/banner.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">原神抽卡研究一</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-12-31 13:38" pubdate>
+          2022年12月31日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          17 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">原神抽卡研究一</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="原神抽卡研究一"><a href="#原神抽卡研究一" class="headerlink" title="原神抽卡研究一"></a>原神抽卡研究一</h1><span id="more"></span>
+
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>目前在市面上出现了大量以抽奖为核心盈利手段的电子游戏，在这种游戏中，获取游戏中的物品不是明码标价的购买，而是通过参加某种抽奖性质的活动。玩家花费一定金额购买参加活动的机会，每次参加都有一定的概率获得玩家想要获得的物品。在抽奖活动中，游戏设计者还会引入一种被称为 “保底” 的游戏机制：开发者向玩家群体承诺在一定的参加次数之后必然会获得到该物品。例如下面是热门游戏《原神》中获取游戏中角色 “抽奖” 活动的概率公示页面。</p>
+<p><img src="/blog/./genshin-gacha-1/2022-12-31-13-06-36-image.png" srcset="/blog/img/loading.gif" lazyload></p>
+<p>在这个 “抽奖” 活动中，玩家可以得到三种等级的物品，在游戏中分别称为 “五星物品”、“四星物品” 和 “三星物品”。在每次的 “抽奖” 活动中，玩家必定会获得上述三种物品中的一种。为了简化问题的讨论，我们现不区分相同等级不同物品之间的不同，只考虑不同星级物品的获取概率。通过概率公示可以知道：五星物品的 “基础概率” 为0.600%，四星物品的 “基础概率” 为 5.100%；五星物品的 “综合概率” 为 1.600%，四星物品的 “综合概率” 为 13.000%。从一个玩家的角度出发，自然会存在两个问题：</p>
+<ul>
+<li><p>什么是“基础概率”，什么是“综合概率”？</p>
+</li>
+<li><p>游戏中的实际概率和公式概率吻合吗？</p>
+</li>
+</ul>
+<h2 id="研究方法"><a href="#研究方法" class="headerlink" title="研究方法"></a>研究方法</h2><p>在大量的重复实验中，事件 A 发生的频率往往具有稳定性，随着重复实验次数的增加，事件发生的频率逐渐稳定于某个固定的客观的常数。由于大数定理，频率最终会收敛到概率。因此，可以通过大量玩家参与这个 “实验” 的数据来回答上述的问题。</p>
+<h3 id="数据的获取"><a href="#数据的获取" class="headerlink" title="数据的获取"></a>数据的获取</h3><p>一般而言，游玩游戏的玩家只能看见自己过往参加游戏时的记录，但是在一些第三方平台上允许其他玩家主动上传数据并公示给大家。虽然这些第三方平台上数据不能完全保证可靠性，可以通过统计中筛选删除明显错误和容易对结果产生较大影响的数据，即使仍然存在少量的错误数据也不会对结果产生比较明显的影响。这里采用<a target="_blank" rel="noopener" href="https://github.com/OneBST">OneBST</a>从第三方平台 <a target="_blank" rel="noopener" href="https://feixiaoqiu.com/">“非小酋” 网站</a>获取的截至 2022 年 7 月 26 日的数据作为数据集。</p>
+<blockquote>
+<p>数据可以在<a target="_blank" rel="noopener" href="https://github.com/OneBST/GI_gacha_dataset/">Github仓库</a>中下载。</p>
+</blockquote>
+<h3 id="数据的统计和分析"><a href="#数据的统计和分析" class="headerlink" title="数据的统计和分析"></a>数据的统计和分析</h3><p>利用 Python 中的 Numpy 和 Pandas 等工具包对获取到的数据进行统计分析，在对获取到的数据进行分析的过程中按照以下的规则排除明显错误和对结果影响比较大的数据：</p>
+<ul>
+<li><p>抽卡中多次出现违反“保底”规则的数据，例如多次获得“四星”物品的间隔超过10次。</p>
+</li>
+<li><p>数据中应该唯一的字段“gacha_id”大量重复。</p>
+</li>
+<li><p>第一次获得四星或者五星物品。</p>
+</li>
+<li><p>数据本身的错误。</p>
+</li>
+</ul>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><h3 id="综合概率的解释"><a href="#综合概率的解释" class="headerlink" title="综合概率的解释"></a>综合概率的解释</h3><p>在总共 4842256 次抽卡记录中，获得五星物品的次数为 78493 次，于是：</p>
+<p><img src="/blog/genshin-gacha-1/2022-12-31-15-59-20-image.png" srcset="/blog/img/loading.gif" lazyload></p>
+<p>再计算一下每次参加该活动获得四星物品的平均概率：在总共 5000139 次抽卡中，获得四星物品的次数为 653200：</p>
+<p><img src="/blog/genshin-gacha-1/2022-12-31-15-59-42-image.png" srcset="/blog/img/loading.gif" lazyload></p>
+<p>不难发现，在误差允许的范围内，计算出来的平均概率和游戏开发者所公布的 “综合概率” 是相同的。当参与这个游戏足够多次时，获取到五星物品和四星物品的数量就可以用这个概率来估计。</p>
+<h3 id="抽卡过程的数学描述"><a href="#抽卡过程的数学描述" class="headerlink" title="抽卡过程的数学描述"></a>抽卡过程的数学描述</h3><p>为了方便讨论，再次将这个 “游戏” 简化为获得五星物品和不获得五星物品两种情况。那么这个 “抽奖” 游戏是否就能被简化为一个概率为 1.6% 的 n 次伯努利实验？不妨假设每次获得五星物品之间相互独立，这样每次获得五星物品都可以认为是首次获得五星物品，这时参加该游戏的次数就会符合概率为 1.6% 的几何分布，而为了符合保底规则，当玩家在参与到第 90 次时仍未获得五星物品，强制给予玩家一个五星的物品。画出实际数据中得到的图像和按照几何分布得到的图像。</p>
+<p><img src="/blog/genshin-gacha-1/2022-12-31-13-20-46-image.png" srcset="/blog/img/loading.gif" lazyload></p>
+<p><img src="/blog/genshin-gacha-1/2022-12-31-13-21-11-image.png" srcset="/blog/img/loading.gif" lazyload></p>
+<p>不难发现假设的猜想和实际情况不相符合。在抽数小于 73 抽时，获得五星物品的概率逐渐降低，从 0.6% 左右一直降低至 0.4% 左右。当抽数大于等于 73 抽时，抽到的概率开始上升，在抽数等于 77 抽时达到最大，大约为 10.4%。随后概率开始下降，在第 91 抽时，概率等于 0。</p>
+<p>如果在实际得到的概率关于抽数的图上再作出概率为 0.6% 的几何分布的图像，前73 抽的概率图像和几何分布的图像几乎吻合。也就是说，该抽奖游戏的前 73 抽就是一个符合 P &#x3D; 0.6% 的几何分布，从第 73 抽开始 “保底” 机制的修正。这就是游戏开发者口中 “基础概率” 的含义：在该抽奖游戏的前数十抽就是一个概率为 0.6% 的伯努利实验。</p>
+<p><img src="/blog/genshin-gacha-1/2022-12-31-13-24-26-image.png" srcset="/blog/img/loading.gif" lazyload></p>
+<p>从大量的实际数据出发，不难发现游戏开发者的申明同实际情况相吻合。</p>
+<h2 id="不足和展望"><a href="#不足和展望" class="headerlink" title="不足和展望"></a>不足和展望</h2><h3 id="获取五星物品相互独立的假设"><a href="#获取五星物品相互独立的假设" class="headerlink" title="获取五星物品相互独立的假设"></a>获取五星物品相互独立的假设</h3><p>直到作者开始写作本文之前，作者都没有意识到本文 3.2 节中的所有结论几乎都基于该假设。限于文章的篇幅原因和个人的能力问题，在本文中未对这个假设作出验证。下面给出一种验证该猜想的方法。为验证获得五星物品之间相互独立，可以通过统计方法验证下面的等式成立。</p>
+<p><img src="/blog/genshin-gacha-1/2022-12-31-16-00-10-image.png" srcset="/blog/img/loading.gif" lazyload></p>
+<h3 id="展望"><a href="#展望" class="headerlink" title="展望"></a>展望</h3><p>在获得概率和抽数之间的相关关系之后，可以将这个抽卡的过程当作一个随机过程进行析，并且求出相关的数学特征。从玩家的角度出发，可以指导玩家使用比较合理的策略参加这个游戏，从而以比较低的代价获得自己心仪的物品。从游戏开发者的角度出发，则有有利于优化自己游戏中的概率设计，吸引更多的玩家参与到游戏中来。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/blog/tags/%E5%8E%9F%E7%A5%9E/">#原神</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>原神抽卡研究一</div>
+      <div>https://jackfiled.github.io/blog/2022/12/31/genshin-gacha-1/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ricardo Ren</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年12月31日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/blog/2023/01/15/daily-linux-0/" title="日用Linux挑战 第0篇">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">日用Linux挑战 第0篇</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/blog/2022/12/30/2022-final/" title="2022年终总结">
+                        <span class="hidden-mobile">2022年终总结</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004429号-1
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/events.js" ></script>
+<script  src="/blog/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/blog/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

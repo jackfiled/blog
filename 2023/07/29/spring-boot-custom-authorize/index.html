@@ -1,0 +1,618 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/favicon.ico">
+  <link rel="icon" href="/blog/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ricardo Ren">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="SpringBoot自定义注解实现权限控制">
+  
+  
+  
+  <title>SpringBoot自定义注解实现权限控制 - Ricardo的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jackfiled.github.io","root":"/blog/","version":"1.9.4","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/blog/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/blog/js/utils.js" ></script>
+  <script  src="/blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/blog/">
+      <strong>Ricardo Ren</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/blog/img/banner.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">SpringBoot自定义注解实现权限控制</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-07-29 15:20" pubdate>
+          2023年7月29日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          62 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">SpringBoot自定义注解实现权限控制</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="SpringBoot自定义注解实现权限控制"><a href="#SpringBoot自定义注解实现权限控制" class="headerlink" title="SpringBoot自定义注解实现权限控制"></a>SpringBoot自定义注解实现权限控制</h1><span id="more"></span>
+
+<h2 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h2><p>最近在用<code>SpringBoot</code>写一个数据结构的大作业，实现一个日程管理系统。在系统需要有不同用户的权限管理功能。但是<code>SpringBoot</code>框架中使用的<code>Spring Security</code>权限控制框架有点过于“重”了，对于我们这种小项目来说不太适用。</p>
+<p>于是我们打算利用<code>Spring</code>中比较强大的注解功能自行设计实现一套权限控制功能。这个功能需要实现一下这些功能：</p>
+<ul>
+<li>基于<code>Json Web Token</code>的登录状态维持。</li>
+<li>不同的用户具有不同的权限</li>
+<li>使用注解注明每个接口设置的权限类型</li>
+<li>在控制器中可以获得当前请求用户的身份信息</li>
+</ul>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><h3 id="权限等级和策略等级"><a href="#权限等级和策略等级" class="headerlink" title="权限等级和策略等级"></a>权限等级和策略等级</h3><p>首先明确一下我们需要支持的权限等级，通过枚举的方式表现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">UserPermission</span> </span>&#123;<br>    USER(<span class="hljs-number">0</span>, <span class="hljs-string">&quot;user&quot;</span>),<br>    ADMIN(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;administrator&quot;</span>),<br>    SUPER(<span class="hljs-number">2</span>, <span class="hljs-string">&quot;superman&quot;</span>);<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> code;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String name;<br><br>    UserPermission(<span class="hljs-keyword">int</span> code, String name) &#123;<br>        <span class="hljs-keyword">this</span>.code = code;<br>        <span class="hljs-keyword">this</span>.name = name;<br>    &#125;<br><br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getCode</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> code;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> name;<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>这里我们使用了经典的三层等级制度。</p>
+<p>然后明确一下我们对于各个接口的权限要求，这里也采用枚举的方式给出：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">AuthorizePolicy</span> </span>&#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 只要登录就可以访问</span><br><span class="hljs-comment">     */</span><br>    ONLY_LOGIN(<span class="hljs-string">&quot;onlyLogin&quot;</span>),<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 用户在当前请求的组织中</span><br><span class="hljs-comment">     */</span><br>    CURRENT_GROUP_USER(<span class="hljs-string">&quot;currentGroupUser&quot;</span>),<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 用户在当前请求的组织中 且权限在管理员之上</span><br><span class="hljs-comment">     */</span><br>    CURRENT_GROUP_ADMINISTRATOR(<span class="hljs-string">&quot;currentGroupAdministrator&quot;</span>),<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 用户在当前请求的组织中 且权限在超级管理员之上</span><br><span class="hljs-comment">     */</span><br>    CURRENT_GROUP_SUPERMAN(<span class="hljs-string">&quot;currentGroupSuperman&quot;</span>),<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 当前用户可以访问（URL终结点包含用户ID）</span><br><span class="hljs-comment">     */</span><br>    CURRENT_USER(<span class="hljs-string">&quot;currentUser&quot;</span>),<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 用户权限超过普通管理员</span><br><span class="hljs-comment">     */</span><br>    ABOVE_ADMINISTRATOR(<span class="hljs-string">&quot;aboveAdministrator&quot;</span>),<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 用户权限超过超级管理员</span><br><span class="hljs-comment">     */</span><br>    ABOVE_SUPERMAN(<span class="hljs-string">&quot;aboveSuperman&quot;</span>);<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String implementName;<br><br>    AuthorizePolicy(String implementName) &#123;<br>        <span class="hljs-keyword">this</span>.implementName = implementName;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getImplementName</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.implementName;<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>这里<code>current</code>开头相关策略有点粪的一点是，为了确保每个用户只能访问自己相关的数据，我们会从请求<code>url</code>中读取当前请求对象的ID。因为我们采用了<code>RESTful API</code>的设计思想，因此形如<code>/user/1</code>之类的请求就表示对于ID等于1的用户进行请求。但是这样设计就存在两个问题：</p>
+<ul>
+<li>从编程的角度出发，<code>current</code>相关策略就只能使用在<code>url</code>最后为对象ID的接口上，但是这是一个<strong>口头约定</strong>，实际代码中没有任何限制，因此当错误使用这类策略时就会引起不必要的运行时错误。</li>
+<li>从应用的角度出发，从<code>url</code>中获得数据也显得有一点奇怪。</li>
+</ul>
+<h3 id="策略实现服务"><a href="#策略实现服务" class="headerlink" title="策略实现服务"></a>策略实现服务</h3><p>为了实现不同策略服务，我们设计了一个认证接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> top.rrricardo.postcalendarbackend.services;<br><br><span class="hljs-keyword">import</span> top.rrricardo.postcalendarbackend.dtos.UserDTO;<br><span class="hljs-keyword">import</span> top.rrricardo.postcalendarbackend.exceptions.NoIdInPathException;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">AuthorizeService</span> </span>&#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 验证用户的权限</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> user 用户DTO模型</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> requestUri 请求的URI</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 是否通过拥有权限</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">authorize</span><span class="hljs-params">(UserDTO user, String requestUri)</span> <span class="hljs-keyword">throws</span> NoIdInPathException</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>其中输入的两个参数分别是在令牌中解析出来的用户信息（通过<code>json</code>的形式存储在<code>JWT</code>令牌中）和当前请求的<code>url</code>。</p>
+<p>然后针对每个策略实现一个认证服务：</p>
+<p><img src="/blog/spring-boot-custom-authorize/image-20230727175807814.png" srcset="/blog/img/loading.gif" lazyload alt="image-20230727175807814"></p>
+<blockquote>
+<p>具体实现就不在这里给出。</p>
+</blockquote>
+<p>在注入每个服务时，使用策略枚举作为服务的名称，方便后续获得该服务实例。</p>
+<p><img src="/blog/spring-boot-custom-authorize/image-20230727175955817.png" srcset="/blog/img/loading.gif" lazyload alt="image-20230727175955817"></p>
+<h3 id="注解和注解解析"><a href="#注解和注解解析" class="headerlink" title="注解和注解解析"></a>注解和注解解析</h3><p>首先实现一个<strong>运行时</strong>，<strong>注解在方法上</strong>的注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.lang.annotation.*;<br><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@Target(ElementType.METHOD)</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-meta">@Inherited</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> Authorize &#123;<br>    <span class="hljs-function">AuthorizePolicy <span class="hljs-title">policy</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> AuthorizePolicy.ONLY_LOGIN</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>然后实现一个注解处理器：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> top.rrricardo.postcalendarbackend.components;<br><br><span class="hljs-keyword">import</span> io.jsonwebtoken.JwtException;<br><span class="hljs-keyword">import</span> jakarta.servlet.http.HttpServletRequest;<br><span class="hljs-keyword">import</span> jakarta.servlet.http.HttpServletResponse;<br><span class="hljs-keyword">import</span> org.springframework.stereotype.Component;<br><span class="hljs-keyword">import</span> org.springframework.web.method.HandlerMethod;<br><span class="hljs-keyword">import</span> org.springframework.web.servlet.HandlerInterceptor;<br><span class="hljs-keyword">import</span> top.rrricardo.postcalendarbackend.annotations.Authorize;<br><span class="hljs-keyword">import</span> top.rrricardo.postcalendarbackend.dtos.ResponseDTO;<br><span class="hljs-keyword">import</span> top.rrricardo.postcalendarbackend.dtos.UserDTO;<br><span class="hljs-keyword">import</span> top.rrricardo.postcalendarbackend.exceptions.NoIdInPathException;<br><span class="hljs-keyword">import</span> top.rrricardo.postcalendarbackend.services.JwtService;<br><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AuthorizeInterceptor</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">HandlerInterceptor</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> JwtService jwtService;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> AuthorizeServiceFactory authorizeServiceFactory;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> ThreadLocal&lt;UserDTO&gt; local = <span class="hljs-keyword">new</span> ThreadLocal&lt;&gt;();<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">AuthorizeInterceptor</span><span class="hljs-params">(JwtService jwtService, AuthorizeServiceFactory authorizeServiceFactory)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.jwtService = jwtService;<br>        <span class="hljs-keyword">this</span>.authorizeServiceFactory = authorizeServiceFactory;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">preHandle</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>        <span class="hljs-keyword">if</span> (!(handler <span class="hljs-keyword">instanceof</span> HandlerMethod handlerMethod)) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">var</span> method = handlerMethod.getMethod();<br>        <span class="hljs-keyword">var</span> authorize = method.getAnnotation(Authorize.class);<br>        <span class="hljs-keyword">if</span> (authorize == <span class="hljs-keyword">null</span>) &#123;<br>            <span class="hljs-comment">// 没有使用注解</span><br>            <span class="hljs-comment">// 说明不需要身份验证</span><br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>        &#125;<br><br>        <span class="hljs-comment">// 验证是否携带令牌</span><br>        <span class="hljs-keyword">var</span> tokenHeader = request.getHeader(jwtService.header);<br>        <span class="hljs-keyword">if</span> (tokenHeader == <span class="hljs-keyword">null</span> || !tokenHeader.startsWith(jwtService.tokenPrefix)) &#123;<br>            <span class="hljs-keyword">var</span> responseDTO = <span class="hljs-keyword">new</span> ResponseDTO&lt;UserDTO&gt;(<span class="hljs-string">&quot;No token provided.&quot;</span>);<br>            response.setStatus(<span class="hljs-number">401</span>);<br>            response.getWriter().println(responseDTO);<br><br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-keyword">var</span> claims = jwtService.parseJwtToken(tokenHeader);<br>            <span class="hljs-keyword">var</span> userDTO = <span class="hljs-keyword">new</span> UserDTO(<br>                    claims.get(<span class="hljs-string">&quot;userId&quot;</span>, Integer.class),<br>                    claims.getIssuer(),<br>                    claims.get(<span class="hljs-string">&quot;emailAddress&quot;</span>, String.class)<br>            );<br>            <span class="hljs-keyword">var</span> authService = authorizeServiceFactory.getAuthorizeService(authorize.policy());<br><br>            <span class="hljs-keyword">if</span> (authService.authorize(userDTO, request.getRequestURI())) &#123;<br>                local.set(userDTO);<br>                <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-keyword">var</span> responseDTO = <span class="hljs-keyword">new</span> ResponseDTO&lt;UserDTO&gt;(<span class="hljs-string">&quot;No permission&quot;</span>);<br><br>                response.setStatus(<span class="hljs-number">403</span>);<br>                response.getWriter().println(responseDTO);<br>                <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>            &#125;<br>        &#125; <span class="hljs-keyword">catch</span> (JwtException e) &#123;<br>            <span class="hljs-comment">// 解析令牌失败</span><br>            <span class="hljs-keyword">var</span> responseDTO = <span class="hljs-keyword">new</span> ResponseDTO&lt;UserDTO&gt;(e.getMessage());<br><br>            response.setStatus(<span class="hljs-number">401</span>);<br>            response.getWriter().println(responseDTO);<br><br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>        &#125; <span class="hljs-keyword">catch</span> (NoIdInPathException e) &#123;<br>            <span class="hljs-comment">// 在请求路径中没有获取到用户ID</span><br>            <span class="hljs-keyword">var</span> responseDTO = <span class="hljs-keyword">new</span> ResponseDTO&lt;UserDTO&gt;(<span class="hljs-string">&quot;Internal server error, please contact administrator&quot;</span>);<br><br>            response.setStatus(<span class="hljs-number">500</span>);<br>            response.getWriter().println(responseDTO);<br><br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">afterCompletion</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)</span> </span>&#123;<br>        local.remove();<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> UserDTO <span class="hljs-title">getUserDTO</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> local.get();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>其中重要的部分是声明了一个<code>ThreadLocal</code>的变量，当前的处理线程可以通过这个变量获得当前发起请求的用户信息。</p>
+<p>在上述实现中还涉及到使用<code>AuthorizeServiceFactory</code>的部分，这是因为在配置注解处理器时不能使用依赖注入，需要手动创建对象：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.springframework.context.annotation.Configuration;<br><span class="hljs-keyword">import</span> org.springframework.web.servlet.config.annotation.InterceptorRegistry;<br><span class="hljs-keyword">import</span> org.springframework.web.servlet.config.annotation.WebMvcConfigurer;<br><span class="hljs-keyword">import</span> top.rrricardo.postcalendarbackend.components.AuthorizeInterceptor;<br><span class="hljs-keyword">import</span> top.rrricardo.postcalendarbackend.components.AuthorizeServiceFactory;<br><span class="hljs-keyword">import</span> top.rrricardo.postcalendarbackend.services.JwtService;<br><br><span class="hljs-meta">@Configuration</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WebMvcConfiguration</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">WebMvcConfigurer</span> </span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> JwtService jwtService;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> AuthorizeServiceFactory authorizeServiceFactory;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">WebMvcConfiguration</span><span class="hljs-params">(JwtService jwtService, AuthorizeServiceFactory authorizeServiceFactory)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.jwtService = jwtService;<br>        <span class="hljs-keyword">this</span>.authorizeServiceFactory = authorizeServiceFactory;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addInterceptors</span><span class="hljs-params">(InterceptorRegistry registry)</span> </span>&#123;<br>        registry.addInterceptor(<span class="hljs-keyword">new</span> AuthorizeInterceptor(jwtService, authorizeServiceFactory));<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>我们就实现了一个<code>AuthorizeServiceFactory</code>，在解决依赖注入问题的同时封装了一部分的逻辑：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.springframework.stereotype.Component;<br><span class="hljs-keyword">import</span> top.rrricardo.postcalendarbackend.enums.AuthorizePolicy;<br><span class="hljs-keyword">import</span> top.rrricardo.postcalendarbackend.services.AuthorizeService;<br><br><span class="hljs-keyword">import</span> java.util.Map;<br><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AuthorizeServiceFactory</span> </span>&#123;<br>    Map&lt;String, AuthorizeService&gt; authorizeServiceMap;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">AuthorizeServiceFactory</span><span class="hljs-params">(Map&lt;String, AuthorizeService&gt; authorizeServiceMap)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.authorizeServiceMap = authorizeServiceMap;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> AuthorizeService <span class="hljs-title">getAuthorizeService</span><span class="hljs-params">(AuthorizePolicy policy)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> authorizeServiceMap.get(policy.getImplementName());<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="实际引用"><a href="#实际引用" class="headerlink" title="实际引用"></a>实际引用</h2><p>我们在项目<a target="_blank" rel="noopener" href="https://github.com/post-guard/PostCalendarBackend">PostCalendarBackend</a>中实际使用的这个技术，相关代码在可以在Github上获取。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/blog/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/">#技术笔记</a>
+      
+        <a href="/blog/tags/Java/">#Java</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>SpringBoot自定义注解实现权限控制</div>
+      <div>https://jackfiled.github.io/blog/2023/07/29/spring-boot-custom-authorize/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ricardo Ren</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年7月29日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/blog/2023/09/04/daily-linux-3/" title="日用Linux挑战 第三篇">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">日用Linux挑战 第三篇</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/blog/2023/07/23/daily-linux-2/" title="日用Linux挑战 第2篇">
+                        <span class="hidden-mobile">日用Linux挑战 第2篇</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004429号-1
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/events.js" ></script>
+<script  src="/blog/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/blog/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

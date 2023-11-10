@@ -1,0 +1,609 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/favicon.ico">
+  <link rel="icon" href="/blog/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ricardo Ren">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="初学Qt的一点小笔记最近的大作业需要用 C/C++的技术栈实现一个图形化界面，Qt作为C++图形化框架久负盛名，正好借着这个写大作业的机会学习一下这个应用广泛的框架。">
+  
+  
+  
+  <title>初学Qt的一点小笔记 - Ricardo的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jackfiled.github.io","root":"/blog/","version":"1.9.4","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/blog/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/blog/js/utils.js" ></script>
+  <script  src="/blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/blog/">
+      <strong>Ricardo Ren</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/blog/img/banner.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">初学Qt的一点小笔记</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-07-01 14:32" pubdate>
+          2022年7月1日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          23 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">初学Qt的一点小笔记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="初学Qt的一点小笔记"><a href="#初学Qt的一点小笔记" class="headerlink" title="初学Qt的一点小笔记"></a>初学Qt的一点小笔记</h1><p>最近的大作业需要用 <code>C/C++</code>的技术栈实现一个图形化界面，<code>Qt</code>作为C++图形化框架久负盛名，正好借着这个写大作业的机会学习一下这个应用广泛的框架。</p>
+<span id="more"></span>
+
+<h2 id="Qt的安装"><a href="#Qt的安装" class="headerlink" title="Qt的安装"></a>Qt的安装</h2><p>现在比较新版本的Qt貌似都不支持下载离线安装包了，受制于网络环境，在线安装的体验并不是很好。为了比较顺利的完成安装，使用老套路——国内镜像。清华大学就提供了Qt在线安装的镜像，具体的使用说明参照镜像的这篇<a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/help/qt/">帮助</a>，在下载之前记得注册一个Qt的账号。</p>
+<h3 id="版本的选择"><a href="#版本的选择" class="headerlink" title="版本的选择"></a>版本的选择</h3><p>现在<code>Qt</code>最新的版本已经来到了<code>Qt6</code>，虽然现在<code>Qt5</code>仍然十分的流行，网上大部分的资料与教程都是采用<code>Qt5</code>写成的，我最后还是选选择了<code>Qt6</code>，理由主要有以下三点：</p>
+<ul>
+<li>工程并不是很复杂，而且开发的周期很长，即使在中间遇到了一些新版本的玄学问题，我也有比较充足的时间来解决或者避开问题</li>
+<li><code>Qt6</code>开始完全转向<code>cmake</code>管理项目，而我的这个大作业“恰好”就是采用<code>cmake</code>管理的</li>
+<li><code>Qt6</code>是新版本，以后开发的时间还很长，稳定的开发环境还不是我现在需要的，学习的人还是应该积极的跟踪新技术（当然只是我自己的想法）</li>
+</ul>
+<h3 id="编译器的选择"><a href="#编译器的选择" class="headerlink" title="编译器的选择"></a>编译器的选择</h3><p>我在<code>Windows</code>平台上进行开发，虽然在之前学习过程中<code>MinGW64 GCC</code>是我更常用的编译器，但是他毕竟是一个移植的编译器，而不是“官方”的编译器，我选择了<code>MSVC</code>作为这次项目的编译器。</p>
+<blockquote>
+<p>这里还有一个理由是我正在大力推进<code>WSL</code>在我日常开发中的使用，我正在把我所有的<code>C/C++</code>项目都迁移到<code>WSL</code>中进行开发，在<code>Windows</code>中我已经不保留<code>MinGW64</code>编译器了。</p>
+</blockquote>
+<h3 id="预处理的使用"><a href="#预处理的使用" class="headerlink" title="预处理的使用"></a>预处理的使用</h3><p>在这次<code>Qt</code>开发中我用到了两个预处理器——<code>moc</code>和<code>uic</code>，前者服务于<code>Qt</code>的元对象系统(Meta Object System)，后者负责与将<code>Qt Designer</code>生成了<code>*.ui</code>文件转换为编译器可以编译的<code>ui_*.h</code>文件。这里重点说说前者，<code>Qt</code>的元对象系统是<code>Qt</code>信号和槽机制的基础，所有需要用到信号槽的类都需要继承<code>QObject</code>这个基类，同时在类里申明<code>Q_OBJECT</code>这个宏，而且，这个头文件还得被<code>moc</code>预处理器预处理为<code>moc_*.cpp</code>之后才能被编译器所编译，否则就会报<code>LNK2001</code>连接错误，提示有三个函数无法找到定义，</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-variable">@errorMsg</span>.<span class="hljs-attribute">obj </span>: error <span class="hljs-attribute">LNK2001</span>: unresolved external symbol <span class="hljs-string">&quot;public: virtual struct QMetaObject const * __thiscall errorMsg::metaObject(void)const &quot;</span> (?metaObject<span class="hljs-variable">@errorMsg</span><span class="hljs-variable">@@UBEPBUQMetaObject</span><span class="hljs-variable">@@XZ</span>)<br><br>errorMsg.<span class="hljs-attribute">obj </span>: error <span class="hljs-attribute">LNK2001</span>: unresolved external symbol <span class="hljs-string">&quot;public: virtual void * __thiscall errorMsg::qt_metacast(char const *)&quot;</span> (?qt_metacast<span class="hljs-variable">@errorMsg</span><span class="hljs-variable">@@UAEPAXPBD</span><span class="hljs-variable">@Z</span>)<br><br>errorMsg.<span class="hljs-attribute">obj </span>: error <span class="hljs-attribute">LNK2001</span>: unresolved external symbol <span class="hljs-string">&quot;public: virtual int __thiscall errorMsg::qt_metacall(enum QMetaObject::Call,int,void * *)&quot;</span> (?qt_metacall<span class="hljs-variable">@errorMsg</span><span class="hljs-variable">@@UAEHW4Call</span><span class="hljs-variable">@QMetaObject</span><span class="hljs-variable">@@HPAPAX</span><span class="hljs-variable">@Z</span>)@<br></code></pre></td></tr></table></figure>
+
+<p>在我这次的工程中，需要以下设置才能让<code>moc</code>预处理器正确工作：</p>
+<ul>
+<li>在<code>CMakeLists.txt</code>文件中需要定义<code>set(CMAKE_AUTOMOC ON)</code></li>
+<li>在包含这个头文件的地方需要将头文件的名称改为预处理之后的名称<code>moc_*.cpp</code>，如下图所示</li>
+</ul>
+<p><img src="/blog/2022/07/01/qt-learning/1.png" srcset="/blog/img/loading.gif" lazyload></p>
+<h2 id="Qt-Designer"><a href="#Qt-Designer" class="headerlink" title="Qt Designer"></a>Qt Designer</h2><p>在一开始我对于这个软件的使用是比较迷茫的，没有搞明白哪些内容是在<code>Designer</code>中完成的，哪些内容是在代码中完成的，在代码中是如何访问控件的。</p>
+<blockquote>
+<p>这里需要说明的是，我是用<code>CLion</code>作为IDE开发<code>C/C++</code>项目，在这里<code>Qt Designer</code>是作为外部工具存在的。</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs C++">MainWindow::<span class="hljs-built_in">MainWindow</span>(QWidget *parent) : <span class="hljs-built_in">QMainWindow</span>(parent)<br>&#123;<br>    ui = <span class="hljs-keyword">new</span> Ui::MainWindow;<br>    ui-&gt;<span class="hljs-built_in">setupUi</span>(<span class="hljs-keyword">this</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>那个名叫<code>Ui</code>的命名空间让我迷茫了一阵子，在那个空间中也有一个和当前创建的UI类名字相同的类，我以为这是单例模式之类的高级设计模式，在研读了几篇博客，查看了<code>UIC</code>处理器生成的头文件之后，我才意识到这是两个处在不同命名空间但名字相同的类，在<code>Ui</code>命名空间中的那个类就是<code>*.ui</code>文件中定义了那个界面，可以通过这个指针来访问我们在<code>Qt Designer</code>中定义的那些控件。</p>
+<h2 id="Qt-Property-Animation"><a href="#Qt-Property-Animation" class="headerlink" title="Qt Property Animation"></a>Qt Property Animation</h2><p><code>QPropertyAnimation</code>是<code>Qt</code>自己实现的一个简单实用的动画框架，在这次开发中，我使用这个框架实现了对<code>QGraphicsItem</code>这个对象的动画。这里主要的问题是，<code>QGraphicsItem</code>这个类并没有继承<code>QObject</code>，然而<code>QPropertyAnimation</code>这个动画框架所作用的对象必须是一个继承自<code>QObject</code>的对象，而且需要实现动画的属性必须注册<code>Q_PROPERTY</code>，根据文档的说明，我定义了这样的一个类：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BusItem</span>:</span> <span class="hljs-keyword">public</span> QObject, <span class="hljs-keyword">public</span> QGraphicsPixmapItem<br>&#123;<br>    <span class="hljs-function">Q_OBJECT</span><br><span class="hljs-function">    <span class="hljs-title">Q_PROPERTY</span><span class="hljs-params">(QPointF pos READ pos WRITE setPos)</span></span><br><span class="hljs-function"><span class="hljs-keyword">public</span>:</span><br><span class="hljs-function">    explicit BusItem(const QPixmap&amp; pixmap);</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>这个类多重继承了<code>QObject</code>和<code>QGraphicsPixmapItem</code>，这样既可以被<code>QPropertyAnimation</code>所作用，也可以像正常的<code>QGraphicsItem</code>一样被添加进<code>QGrphicsScene</code>并设置各种属性。</p>
+<p>而<code>Q_PROPERTY</code>这个宏给<code>Qt</code>的类型系统注册了一个类型为<code>QPointF</code>名叫<code>pos</code>的变量，这个变量的读通过调用<code>pos()</code>函数来实现，这个变量的写通过调用<code>setPos()</code>函数来实现，这个变量也就是我需要设计动画的变量。</p>
+<blockquote>
+<p>这句代码给我的感觉像是在C#中的<code>set</code>和<code>get</code>两个访问器。</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/blog/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/">#技术笔记</a>
+      
+        <a href="/blog/tags/C-C/">#C/C++</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>初学Qt的一点小笔记</div>
+      <div>https://jackfiled.github.io/blog/2022/07/01/qt-learning/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ricardo Ren</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年7月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/blog/2022/07/27/big-homework/" title="人生代码大作业初体验">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">人生代码大作业初体验</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/blog/2022/06/13/laptop-for-computer/" title="大学生用啥配置——计算机专业">
+                        <span class="hidden-mobile">大学生用啥配置——计算机专业</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004429号-1
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/events.js" ></script>
+<script  src="/blog/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/blog/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

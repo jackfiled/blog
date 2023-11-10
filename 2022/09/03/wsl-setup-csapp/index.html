@@ -1,0 +1,650 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/favicon.ico">
+  <link rel="icon" href="/blog/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ricardo Ren">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="利用WSL设置CSAPP实验环境CSAPP这本书为自学的学生们提供了不少的LAB供大家在联系中提高，但是这些LAB的编写普遍需要一个Linux的实验环境，但是目前大多数人手中的环境都是Windows平台，没有办法原生的运行这些LAB。在以前的实践中，这个问题往往是通过安装虚拟机来解决的，但是现在我们有了更好的解决方案——Windows Subsystem for Linux，简称WSL。">
+  
+  
+  
+  <title>利用WSL设置CSAPP实验环境 - Ricardo的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jackfiled.github.io","root":"/blog/","version":"1.9.4","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/blog/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/blog/js/utils.js" ></script>
+  <script  src="/blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/blog/">
+      <strong>Ricardo Ren</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/blog/img/banner.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">利用WSL设置CSAPP实验环境</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-09-03 19:02" pubdate>
+          2022年9月3日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          48 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">利用WSL设置CSAPP实验环境</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="利用WSL设置CSAPP实验环境"><a href="#利用WSL设置CSAPP实验环境" class="headerlink" title="利用WSL设置CSAPP实验环境"></a>利用WSL设置CSAPP实验环境</h1><p><code>CSAPP</code>这本书为自学的学生们提供了不少的<code>LAB</code>供大家在联系中提高，但是这些<code>LAB</code>的编写普遍需要一个<code>Linux</code>的实验环境，但是目前大多数人手中的环境都是<code>Windows</code>平台，没有办法原生的运行这些<code>LAB</code>。在以前的实践中，这个问题往往是通过安装虚拟机来解决的，但是现在我们有了更好的解决方案——<code>Windows Subsystem for Linux</code>，简称<code>WSL</code>。</p>
+<span id="more"></span>
+
+<h3 id="WSL简介"><a href="#WSL简介" class="headerlink" title="WSL简介"></a>WSL简介</h3><blockquote>
+<p>WSL的<a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/wsl">官方文档</a>，大部分的信息都可以在官方文档中找到</p>
+</blockquote>
+<p>WSL，官方中文翻译：适用于Linux的Windows子系统，“可以让开发人员直接在Windows上按原样运行GNU&#x2F;Linux环境，且不会产生传统虚拟机或者双启动设置开销”，简而言之，这就是Windows为广大开发人员提供的一项轻量化的Linux虚拟环境。</p>
+<h3 id="WSL安装"><a href="#WSL安装" class="headerlink" title="WSL安装"></a>WSL安装</h3><blockquote>
+<p>需要系统版本在Windows 10 2004以上</p>
+</blockquote>
+<p>按下<code>Ctrl+S</code>组合键打开Windows搜索界面，搜索<code>Powershell</code>，使用管理员权限运行这个应用程序，在打开的界面中输入</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">wsl -<span class="hljs-literal">-install</span><br></code></pre></td></tr></table></figure>
+
+<p>回车，等待所有的进度条都走完，重新启动系统。</p>
+<p><img src="/blog/2022/09/03/wsl-setup-csapp/1.png" srcset="/blog/img/loading.gif" lazyload alt="设置的画面"></p>
+<p>在重启完成之后，Ubuntu系统会自动启动并完成一系列的配置，在其中需要你为这个系统设置一个用户。输入这个用户的名称和密码即可。</p>
+<blockquote>
+<p>在终端中输入密码时，命令行中不会有任何显示</p>
+<p>这个用户将成为此Linux系统的管理员</p>
+<p>现在开始就得习惯命令行操作了</p>
+</blockquote>
+<p>在完成设置之后，我们就可以在任意的命令行界面（比如<code>cmd</code>, <code>powershell</code>）输入<code>wsl</code>来启动这个虚拟的Linux环境了。</p>
+<h3 id="设置一个漂亮的终端界面"><a href="#设置一个漂亮的终端界面" class="headerlink" title="设置一个漂亮的终端界面"></a>设置一个漂亮的终端界面</h3><p>在上文中我们已经完成了WSL的安装和设置，但是作为我们将常常使用的界面，这些个黑框框莫名显得有点过于简陋。我们可以从<code>Microsoft Store</code>下载<code>Windows Terminal</code>这个应用来优化终端界面的显示，还有一系列的插件和<code>Shell</code>可供我们选择，由于这个部分和本文关系不大，这里就不赘述了。</p>
+<h3 id="更换APT下载源"><a href="#更换APT下载源" class="headerlink" title="更换APT下载源"></a>更换APT下载源</h3><p>APT是Ubuntu系统中默认的软件包管理器，是一个很方便的软件下载安装更新卸载神器，不过唯一的问题是下载源在国外，我们需要切换为国内的镜像源。</p>
+<p>清华的<a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/">TUNA源</a>是比较推荐的，使用帮助<a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/">见此</a>。</p>
+<p>使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo apt update<br></code></pre></td></tr></table></figure>
+
+<p>测试换源是否成功。</p>
+<p><img src="/blog/2022/09/03/wsl-setup-csapp/2.png" srcset="/blog/img/loading.gif" lazyload alt="证书错误"></p>
+<p>如果在换源的过程中报错<code>Certificate verification failed</code>，可以将配置文件中的所有<code>https</code>更改为<code>http</code>来临时解决。</p>
+<blockquote>
+<p>我平时使用<a target="_blank" rel="noopener" href="https://mirrors.bupt.edu.cn/">北邮镜像</a>，貌似没遇到这个问题。不过还是记录一下，<del>而且在校内速度拉满</del></p>
+</blockquote>
+<h3 id="下载CSAPP的LAB资料并使用编辑"><a href="#下载CSAPP的LAB资料并使用编辑" class="headerlink" title="下载CSAPP的LAB资料并使用编辑"></a>下载CSAPP的LAB资料并使用编辑</h3><p>这里介绍两种下载LAB进入<code>WSL</code>中的方法。</p>
+<h4 id="直接使用命令从网络上下载"><a href="#直接使用命令从网络上下载" class="headerlink" title="直接使用命令从网络上下载"></a>直接使用命令从网络上下载</h4><p>打开你想要编写csapp的lab的位置，我这里是<code>~/Documents/Code/C/csapp</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> ~/Documents/Code/C/csapp<br></code></pre></td></tr></table></figure>
+
+<p>使用下列命令从csapp的官方网站上下载lab资料</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ wget http://csapp.cs.cmu.edu/3e/datalab-handout.tar<br>--2022-09-03 16:57:26--  http://csapp.cs.cmu.edu/3e/datalab-handout.tar<br>Resolving csapp.cs.cmu.edu (csapp.cs.cmu.edu)... 128.2.100.230<br>Connecting to csapp.cs.cmu.edu (csapp.cs.cmu.edu)|128.2.100.230|:80... connected.<br>HTTP request sent, awaiting response... 200 OK<br>Length: 1075200 (1.0M) [application/x-tar]<br>Saving to: ‘datalab-handout.tar’<br><br>datalab-handout.tar                   100%[=======================================================================&gt;]   1.03M   103KB/s    <span class="hljs-keyword">in</span> 10s<br><br>2022-09-03 16:57:37 (101 KB/s) - ‘datalab-handout.tar’ saved [1075200/1075200]<br><br>$ ls<br>datalab-handout.tar<br></code></pre></td></tr></table></figure>
+
+<p>在命令中的网址是在csapp的<a target="_blank" rel="noopener" href="http://csapp.cs.cmu.edu/3e/labs.html">官方页面</a>中复制粘贴下来的</p>
+<h4 id="先下载在Windows系统中在复制粘贴进入WSL"><a href="#先下载在Windows系统中在复制粘贴进入WSL" class="headerlink" title="先下载在Windows系统中在复制粘贴进入WSL"></a>先下载在Windows系统中在复制粘贴进入WSL</h4><blockquote>
+<p>在WSL中Windows系统的硬盘均会被挂在到<code>/mnt</code>文件夹下，比如C盘就会被挂载到<code>/mnt/c</code>中</p>
+<p>不过最好不要直接在WSL中使用Windows文件路径下的文件搞开发，这个访问是靠网络实现的，性能很弱。最好复制进入WSL中之后在进行开发操作</p>
+</blockquote>
+<p>先在Windows系统中使用浏览器将所有的lab下载到本地。</p>
+<p>在WSL的命令行中使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">cp /mnt/c/Users/ricardo/Downloads/datalab-handout.tar ~/Documents/Code/C/csapp<br></code></pre></td></tr></table></figure>
+
+<p>命令的第一个路径是需要复制的文件在Windows系统中的路径，第二个是在WSL中的目标路径。</p>
+<p>再将lab的数据压缩包下载到本地之后，使用以下的命令来解压压缩包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">tar xvf datalab-handout.tar<br></code></pre></td></tr></table></figure>
+
+<p>来解压对应的压缩包</p>
+<h3 id="编译运行第一个实验"><a href="#编译运行第一个实验" class="headerlink" title="编译运行第一个实验"></a>编译运行第一个实验</h3><blockquote>
+<p>这里就以一个是作为例子来说明如何运行这些lab，其他的lab请仔细阅读压缩包中的README文件</p>
+</blockquote>
+<p>使用<code>make</code>指令编译在实验中需要使用到的二进制文件。首先安装会被使用的软件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo apt install gcc make<br></code></pre></td></tr></table></figure>
+
+<p>使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ make -v<br>GNU Make 4.2.1<br>Built <span class="hljs-keyword">for</span> x86_64-pc-linux-gnu<br>Copyright (C) 1988-2016 Free Software Foundation, Inc.<br>License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;<br>This is free software: you are free to change and redistribute it.<br>There is NO WARRANTY, to the extent permitted by law.<br>$ gcc -v<br>Using built-in specs.<br>COLLECT_GCC=gcc<br>COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/9/lto-wrapper<br>OFFLOAD_TARGET_NAMES=nvptx-none:hsa<br>OFFLOAD_TARGET_DEFAULT=1<br>Target: x86_64-linux-gnu<br>Configured with: ../src/configure -v --with-pkgversion=<span class="hljs-string">&#x27;Ubuntu 9.4.0-1ubuntu1~20.04.1&#x27;</span> --with-bugurl=file:///usr/share/doc/gcc-9/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++,gm2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-9 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-9-Av3uEd/gcc-9-9.4.0/debian/tmp-nvptx/usr,hsa --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu<br>Thread model: posix<br>gcc version 9.4.0 (Ubuntu 9.4.0-1ubuntu1~20.04.1)<br></code></pre></td></tr></table></figure>
+
+<p>确认需要使用的软件安装完成。</p>
+<p>进入解压之后的文件夹，使用<code>make</code>指令编译需要用到的二进制文件</p>
+<p>如果遇到报错，部分头文件未找到：</p>
+<p><img src="/blog/2022/09/03/wsl-setup-csapp/3.png" srcset="/blog/img/loading.gif" lazyload alt="Error"></p>
+<p>不要慌张，这是正常的。</p>
+<p>使用下列命令来安装缺失的运行时库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo apt install gcc-multilib<br></code></pre></td></tr></table></figure>
+
+<p>在库安装完成之后，再使用<code>make</code>编译就没有问题了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ make<br>gcc -O -Wall -m32 -lm -o btest bits.c btest.c decl.c tests.c<br>btest.c: In <span class="hljs-keyword">function</span> ‘test_function’:<br>btest.c:332:23: warning: ‘arg_test_range[1]’ may be used uninitialized <span class="hljs-keyword">in</span> this <span class="hljs-keyword">function</span> [-Wmaybe-uninitialized]<br>  332 |     <span class="hljs-keyword">if</span> (arg_test_range[1] &lt; 1)<br>      |         ~~~~~~~~~~~~~~^~~<br>gcc -O -Wall -m32 -o fshow fshow.c<br>gcc -O -Wall -m32 -o ishow ishow.c<br></code></pre></td></tr></table></figure>
+
+<p>按照README文件中的说明，使用<code>btest</code>程序测试</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ ./btest<br>Score   Rating  Errors  Function<br>ERROR: Test bitXor(-2147483648[0x80000000],-2147483648[0x80000000]) failed...<br>...Gives 2[0x2]. Should be 0[0x0]<br>ERROR: Test tmin() failed...<br>...Gives 2[0x2]. Should be -2147483648[0x80000000]<br>ERROR: Test isTmax(-2147483648[0x80000000]) failed...<br>...Gives 2[0x2]. Should be 0[0x0]<br>ERROR: Test allOddBits(-2147483648[0x80000000]) failed...<br>...Gives 2[0x2]. Should be 0[0x0]<br>ERROR: Test negate(-2147483648[0x80000000]) failed...<br>...Gives 2[0x2]. Should be -2147483648[0x80000000]<br>ERROR: Test isAsciiDigit(-2147483648[0x80000000]) failed...<br>...Gives 2[0x2]. Should be 0[0x0]<br>ERROR: Test conditional(-2147483648[0x80000000],-2147483648[0x80000000],-2147483648[0x80000000]) failed...<br>...Gives 2[0x2]. Should be -2147483648[0x80000000]<br>ERROR: Test isLessOrEqual(-2147483648[0x80000000],-2147483648[0x80000000]) failed...<br>...Gives 2[0x2]. Should be 1[0x1]<br>ERROR: Test logicalNeg(-2147483648[0x80000000]) failed...<br>...Gives 2[0x2]. Should be 0[0x0]<br>ERROR: Test howManyBits(-2147483648[0x80000000]) failed...<br>...Gives 0[0x0]. Should be 32[0x20]<br>ERROR: Test floatScale2(0[0x0]) failed...<br>...Gives 2[0x2]. Should be 0[0x0]<br>ERROR: Test floatFloat2Int(0[0x0]) failed...<br>...Gives 2[0x2]. Should be 0[0x0]<br>ERROR: Test floatPower2(0[0x0]) failed...<br>...Gives 2[0x2]. Should be 1065353216[0x3f800000]<br>Total points: 0/36<br></code></pre></td></tr></table></figure>
+
+<p>测试运行完成，开始<del>痛苦的</del>快乐的学习吧！</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/blog/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/">#技术笔记</a>
+      
+        <a href="/blog/tags/Linux/">#Linux</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>利用WSL设置CSAPP实验环境</div>
+      <div>https://jackfiled.github.io/blog/2022/09/03/wsl-setup-csapp/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ricardo Ren</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年9月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/blog/2022/11/11/compile-mediapipe/" title="编译MediaPipe框架">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">编译MediaPipe框架</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/blog/2022/08/22/2022-summer-vacation/" title="2022年暑假碎碎念">
+                        <span class="hidden-mobile">2022年暑假碎碎念</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004429号-1
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/events.js" ></script>
+<script  src="/blog/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/blog/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

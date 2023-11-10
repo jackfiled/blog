@@ -1,0 +1,652 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/favicon.ico">
+  <link rel="icon" href="/blog/img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ricardo Ren">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="大学生用啥配置——计算机专业 本文是应B站UP主远古时代装机猿发起的大学生用啥配置公益活动而写 目前某不知名211大学计算机专业在读 同时也是给我的许多即将选择计算机专业的同学做一个参考">
+  
+  
+  
+  <title>大学生用啥配置——计算机专业 - Ricardo的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jackfiled.github.io","root":"/blog/","version":"1.9.4","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":false,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/blog/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/blog/js/utils.js" ></script>
+  <script  src="/blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/blog/">
+      <strong>Ricardo Ren</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/blog/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/blog/img/banner.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">大学生用啥配置——计算机专业</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-06-13 16:17" pubdate>
+          2022年6月13日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          21 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">大学生用啥配置——计算机专业</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="大学生用啥配置——计算机专业"><a href="#大学生用啥配置——计算机专业" class="headerlink" title="大学生用啥配置——计算机专业"></a>大学生用啥配置——计算机专业</h1><blockquote>
+<p>本文是应B站UP主<a target="_blank" rel="noopener" href="https://space.bilibili.com/35359510">远古时代装机猿</a>发起的<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1kZ4y1i7Le">大学生用啥配置</a>公益活动而写</p>
+<p>目前某不知名211大学计算机专业在读</p>
+<p>同时也是给我的许多即将选择计算机专业的同学做一个参考</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="专业需求"><a href="#专业需求" class="headerlink" title="专业需求"></a>专业需求</h2><h3 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h3><p>对于大学生来说，还是一台<code>Windows</code>系统的电脑更加的适合，理由如下：</p>
+<ul>
+<li>在学校中的大多人都是使用<code>Windows</code>系统，老师的教学设计也是以同学们拥有一台<code>Windows</code>系统的电脑为基础的，如果你在学习过程中遇到了一些<code>MacOS</code>系统所特有的问题，可能连可以问的人都没有。</li>
+<li>在学习过程中可能会遇到一些课程需要使用只有<code>Windows</code>版本的软件，如果你购买了一台苹果电脑，遇上这种时候就只能使用学校提供的机房或者是安装虚拟机了。</li>
+</ul>
+<h3 id="常用软件"><a href="#常用软件" class="headerlink" title="常用软件"></a>常用软件</h3><p>目前我经常使用的软件如下所示：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://code.visualstudio.com/">VSCode</a>微软出品的文本编辑器，是我目前使用最多的软件之一。我用它来写简单的<code>C/C++</code>,<code>Python</code>和<code>latex</code>等。</li>
+<li><a target="_blank" rel="noopener" href="https://visualstudio.microsoft.com/zh-hans/vs/">Visual Studio</a><del>宇宙第一IDE</del>用来写<code>C#</code>。</li>
+<li><a target="_blank" rel="noopener" href="https://www.jetbrains.com/pycharm/">PyCharm</a>用来写比较复杂的<code>Python</code>项目。</li>
+<li><a target="_blank" rel="noopener" href="https://www.jetbrains.com/clion/">CLion</a>用来写大型的<code>C/C++</code>项目。</li>
+<li><a target="_blank" rel="noopener" href="https://www.jetbrains.com/webstorm/">WebStorm</a>用来写网页。</li>
+<li><a target="_blank" rel="noopener" href="https://developer.android.google.cn/studio/">Android Studio</a>用来开发安卓应用。</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/wsl/about">WSL</a>在<code>Windows</code>系统上使用<code>Linux</code>的神器，其实质上就是一个虚拟机，不过需要的性能少于传统的虚拟机。</li>
+</ul>
+<p>还有一系列日常软件像<code>QQ</code>啥的就不列出了，但凡是台电脑也不至于运行不起来。</p>
+<blockquote>
+<p>严格来说，我还是有相当多的“常用”软件没有提及，像C语言编译器<code>MinGW GCC</code>这类的工具，不过这类命令行工具对性能的需求不容易体现出来，就在下文中对应的IDE处提及了。</p>
+</blockquote>
+<h3 id="日常使用场景的列举"><a href="#日常使用场景的列举" class="headerlink" title="日常使用场景的列举"></a>日常使用场景的列举</h3><blockquote>
+<p>列举了一些专业学习中常见的一些使用场景，记录了对应性能占用，使文章显得有理有据（确信）</p>
+<p>可直接跳转到分析部分</p>
+</blockquote>
+<h4 id="学习、编写C-C-程序"><a href="#学习、编写C-C-程序" class="headerlink" title="学习、编写C/C++程序"></a>学习、编写<code>C/C++</code>程序</h4><p>打开<code>WSL </code>,<code>VSCode</code>和一大堆的网页。</p>
+<p>目前的性能占用如图所示</p>
+<p><img src="/blog/2022/06/13/laptop-for-computer/c.png" srcset="/blog/img/loading.gif" lazyload></p>
+<p>在编译代码时CPU占用会有一个短时的提升，不过由于目前编写的程序都较为简单，编译转瞬就完成了。</p>
+<h4 id="编写较为复杂的C-C-项目"><a href="#编写较为复杂的C-C-项目" class="headerlink" title="编写较为复杂的C/C++项目"></a>编写较为复杂的<code>C/C++</code>项目</h4><p>以我目前的C语言大作业为例，打开两个<code>CLion</code>进行开发，同时打开一大堆网页查资料。</p>
+<p>性能的占用如图所示</p>
+<p><img src="/blog/2022/06/13/laptop-for-computer/clion.png" srcset="/blog/img/loading.gif" lazyload></p>
+<p>在刚打开项目和编译整个项目时CPU的占用会上升，但在完成之后，CPU的占用就会回落。</p>
+<p>目前项目的代码量在50000+，编译整个项目需要15秒左右，但是大部分的代码都是引用的库，只需要编译一次，后续的修改只用编译2~3秒就可以。 </p>
+<h4 id="编写C-项目"><a href="#编写C-项目" class="headerlink" title="编写C#项目"></a>编写<code>C#</code>项目</h4><p>通过安装了<code>Reshaper</code>插件的<code>Visual Studio</code>打开<code>WPF</code>应用进行开发，同时也是打开一大堆浏览器标签页查资料。</p>
+<p>性能占用如图所示</p>
+<p><img src="/blog/2022/06/13/laptop-for-computer/csharp.png" srcset="/blog/img/loading.gif" lazyload></p>
+<h4 id="写网站"><a href="#写网站" class="headerlink" title="写网站"></a>写网站</h4><p>打开<code>WebStorm</code>编写网站。</p>
+<p>性能占用如图所示：</p>
+<p><img src="/blog/2022/06/13/laptop-for-computer/web.png" srcset="/blog/img/loading.gif" lazyload></p>
+<h3 id="软件的运行需求分析"><a href="#软件的运行需求分析" class="headerlink" title="软件的运行需求分析"></a>软件的运行需求分析</h3><p>目前我常用的软件以吃CPU和内存为主，对于显卡的需求相对来说不大。</p>
+<p>CPU的占用主要出现在打开项目和编译项目上，不同CPU的差别主要体现在需要的时间上，对于实际的使用不能产生比较的区别，<del>编译的时间长一点还可以去摸鱼</del>。</p>
+<p>而对于内存的需求就比较大了，目前一般的IDE(集成开发环境)一打开就会吃掉1G以上的内存，项目越复杂还可能更大，而且在写代码的同时还会打开一大堆的浏览器标签页查看资料和文档，众所都周知，目前流行的<code>chrome</code>浏览器内核在使用内存上是一点都不吝啬，因此推荐16G起步。</p>
+<p>对于显卡，如果不需要在工作之余进行一些手脑协调训练，那么亮机卡或者核显就是不错的选择，对于写代码的人来说，高U低显才是合适的搭配。</p>
+<p>之于硬盘，写代码对于硬盘的占用也不算是太大，代码文件基本上都是文本文件，不会占用太多的空间。占用比较大的IDE也一般都在10G以下，<del>比起一些学习资料小很多了</del>一般512G的固态硬盘就完全足够了。 </p>
+<p>之于屏幕，作为大多数的学习活动都在电脑上进行的专业，把钱花在一块素质良好的屏幕上是完全值得的。与游戏电竞不同的是，在选择屏幕是应该更看重分辨率而不是刷新率，刷新率在60Hz就完全足够了，如果是笔记本较低的刷新率还有助于降低耗电量，增加续航。</p>
+<h2 id="我用啥配置"><a href="#我用啥配置" class="headerlink" title="我用啥配置"></a>我用啥配置</h2><p>作为一名眼脑协调训练热爱者的我，目前手持的笔记本自然是一台正宗的游戏本——Dell G15 5511，这台笔记本的详细配置如下所示：</p>
+<ul>
+<li>i7-11800H</li>
+<li>16G DDR4 3200</li>
+<li>RTX3060(125W)</li>
+<li>512G SSD + 1T SSD（自行添加）</li>
+<li>1080P 165Hz 屏幕</li>
+</ul>
+<p>下面简单谈谈对于我而言，这台电脑的优势和劣势：</p>
+<h3 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h3><ul>
+<li>强大的性能使我的游戏体验还是十分不错的</li>
+<li>有一个硬盘位可以自行扩展以存放学习资料</li>
+<li>内存不是板载，在后期内存成为瓶颈时可以扩展</li>
+<li>拥有数量众多的接口</li>
+</ul>
+<h3 id="劣势"><a href="#劣势" class="headerlink" title="劣势"></a>劣势</h3><ul>
+<li>离电续航较短，在某次考试中由于没有占到有插座的座位而不得不使用核显+60Hz+低亮度来完成2个小时的考试。</li>
+<li>旅行重量比较大，官方标称重量2.81千克，再加上一块板砖充电器，带着它出门的体验一言难尽，简直是锻炼身体的必备利器。</li>
+<li>风扇的噪音比较大，在图书馆里使用可能给你带来一些尴尬。</li>
+</ul>
+<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><blockquote>
+<p>如果我是今年毕业，我一定选台式机+轻薄本的组合，去年硬件市场的行情打消了我这个蓄谋已久的想法</p>
+</blockquote>
+<p>我目前的打算自己再攒一台锐龙6000系轻薄本出来用，否则随着后面专业课程的增加，需要用到笔记本的场景只会越来越多，如果仍然像现在一样几乎限制在寝室里使用，难以为继。毕竟众所都周知啊，寝室并不是一个理想的学习环境，如果想要沉浸式的学习，还是得去图书馆和教室。</p>
+<h2 id="给后来者的建议"><a href="#给后来者的建议" class="headerlink" title="给后来者的建议"></a>给后来者的建议</h2><ul>
+<li>如果你不玩游戏，那么一台性能释放较好的核显轻薄本就是你最好的选择。短时间强大的性能释放足够帮你应付编译等场景下的性能需求，轻薄本不错的续航和较轻的重量又能保证你在学校中能够相对自由的移动</li>
+<li>如果你玩游戏，那么还是顺从自己的内心使用游戏本吧！否则你看见同寝室友愉快玩耍时，也会生出再买一台电脑的念头。</li>
+<li>如果你不确定或者有点小钱，也可以选择轻薄本加台式机的组合，这也是最让人感到舒适的配置组合，兼具轻薄本的灵活性和台式机的高性能，唯一的缺点是贵，不过那算是我的缺点</li>
+<li>内存保底16G，如果能更大当然更好</li>
+<li>屏幕素质可以选择的高一些</li>
+<li>如果你已经确定自己要选购一台台式机，请确保自己未来就读的学校有足够的空间和供电来确保自己可以愉快的玩耍，否则不要买了轻薄本到了学校傻了眼，“这小破地方怎么放台式机啊”，或者是游戏一开全寝断电</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/blog/tags/%E9%9A%8F%E7%AC%94/">#随笔</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>大学生用啥配置——计算机专业</div>
+      <div>https://jackfiled.github.io/blog/2022/06/13/laptop-for-computer/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ricardo Ren</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年6月13日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/blog/2022/07/01/qt-learning/" title="初学Qt的一点小笔记">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">初学Qt的一点小笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/blog/2022/05/08/c-include-problems/" title="c-include-problems">
+                        <span class="hidden-mobile">c-include-problems</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      蜀ICP备2022004429号-1
+    </a>
+  </span>
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/events.js" ></script>
+<script  src="/blog/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/blog/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
